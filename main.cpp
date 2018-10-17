@@ -1,6 +1,10 @@
 #include <iostream>
+#include "Pool.cpp"
+
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Pool<int> p;
+    p += 1;
+    std::cout << p.sorted()[0];
     return 0;
 }
