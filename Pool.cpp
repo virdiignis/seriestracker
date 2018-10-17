@@ -3,7 +3,6 @@
 //
 
 #include "Pool.hpp"
-#include <stdexcept>
 
 
 template<typename T>
