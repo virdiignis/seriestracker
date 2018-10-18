@@ -12,6 +12,9 @@ const std::string &Piece::getDesc() const {
     return desc;
 }
 
-unsigned short int Piece::getRuntime() const {
+unsigned short Piece::getRuntime() const {
     return runtime;
 }
+
+Piece::Piece(const std::string &title, const std::string &desc, unsigned short runtime) : title(title), desc(desc),
+                                                                                          runtime(runtime) {}

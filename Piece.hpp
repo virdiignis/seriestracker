@@ -10,14 +10,17 @@
 class Piece {
 private:
     std::string title, desc;
-    unsigned short int runtime;
+    unsigned short runtime;
+
+protected:
+    Piece(const std::string &title, const std::string &desc, unsigned short runtime);
 
 public:
     const std::string &getTitle() const;
 
     const std::string &getDesc() const;
 
-    unsigned short int getRuntime() const;
+    unsigned short getRuntime() const;
 
     virtual std::string serialize() = 0;
 

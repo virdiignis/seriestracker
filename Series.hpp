@@ -10,7 +10,13 @@
 
 class Series : public Piece {
 private:
-    unsigned short int grade, weekday
+    unsigned short grade, weekday;
+    std::string genre;
+    bool followed = false;
+
+public:
+    Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
+           unsigned short weekday, const std::string &genre, bool followed);
 };
 
 
