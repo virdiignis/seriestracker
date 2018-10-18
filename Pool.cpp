@@ -4,6 +4,7 @@
 
 #include "Pool.hpp"
 #include <stdexcept>
+#include <algorithm>
 
 
 template<typename T>
