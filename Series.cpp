@@ -5,8 +5,36 @@
 #include "Series.hpp"
 
 Series::Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
-               unsigned short weekday, const std::string &genre, bool followed) : Piece(title, desc, runtime),
-                                                                                  grade(grade),
-                                                                                  weekday(weekday),
-                                                                                  genre(genre),
-                                                                                  followed(followed) {}
+               unsigned short weekday, const std::string &genre) : Piece(title, desc, runtime),
+                                                                   grade(grade),
+                                                                   weekday(weekday),
+                                                                   genre(genre) {}
+
+bool Series::isFollowed() const noexcept {
+    return followed;
+}
+
+void Series::follow() noexcept {
+    followed = true;
+}
+
+void Series::unfollow() noexcept {
+    followed = false;
+}
+
+unsigned short Series::getGrade() const {
+    return grade;
+}
+
+unsigned short Series::getWeekday() const {
+    return weekday;
+}
+
+const std::string &Series::getGenre() const {
+    return genre;
+}
+
+std::string Series::serialize() {
+    return title + ":" + desc + ":" + std::to_string(runtime) + ":" + std::to_string(grade) + ":" +
+           std::to_string(weekday) + ":" + genre + ":" + std::to_string(followed);
+}

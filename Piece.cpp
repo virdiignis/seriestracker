@@ -18,3 +18,7 @@ unsigned short Piece::getRuntime() const {
 
 Piece::Piece(const std::string &title, const std::string &desc, unsigned short runtime) : title(title), desc(desc),
                                                                                           runtime(runtime) {}
+
+void Piece::setDesc(const std::string &desc) {
+    Piece::desc = desc;
+}

@@ -8,7 +8,7 @@
 #include <string>
 
 class Piece {
-private:
+protected:
     std::string title, desc;
     unsigned short runtime;
 
@@ -19,6 +19,8 @@ public:
     const std::string &getTitle() const;
 
     const std::string &getDesc() const;
+
+    void setDesc(const std::string &desc);
 
     unsigned short getRuntime() const;
 
