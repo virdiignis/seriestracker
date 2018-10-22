@@ -13,6 +13,9 @@ private:
     unsigned short weekday;
     bool followed = false;
 public:
+    Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
+           unsigned short weekday, const std::string &genre);
+
     unsigned short getWeekday() const;
 
     bool isFollowed() const noexcept;
@@ -23,8 +26,7 @@ public:
 
     std::string serialize() override;
 
-    Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
-           unsigned short weekday, const std::string &genre);
+
 };
 
 

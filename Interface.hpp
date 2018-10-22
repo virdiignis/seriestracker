@@ -19,7 +19,7 @@ public:
 
     void show_film(const Film &);
 
-    void show_ppv(const Ppv &);
+    //void show_ppv(const Ppv &);
 
     virtual ~Interface();
 };
