@@ -6,19 +6,14 @@
 #define SERIESTRACKER_SERIES_HPP
 
 
-#include "Piece.hpp"
+#include "Film.hpp"
 
-class Series : public Piece {
+class Series : public Film {
 private:
-    unsigned short grade, weekday;
-    std::string genre;
+    unsigned short weekday;
     bool followed = false;
 public:
-    unsigned short getGrade() const;
-
     unsigned short getWeekday() const;
-
-    const std::string &getGenre() const;
 
     bool isFollowed() const noexcept;
 
@@ -28,7 +23,6 @@ public:
 
     std::string serialize() override;
 
-public:
     Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
            unsigned short weekday, const std::string &genre);
 };

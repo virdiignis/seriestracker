@@ -5,10 +5,8 @@
 #include "Series.hpp"
 
 Series::Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
-               unsigned short weekday, const std::string &genre) : Piece(title, desc, runtime),
-                                                                   grade(grade),
-                                                                   weekday(weekday),
-                                                                   genre(genre) {}
+               unsigned short weekday, const std::string &genre) : Film(title, desc, runtime, grade, genre),
+                                                                   weekday(weekday) {}
 
 bool Series::isFollowed() const noexcept {
     return followed;
@@ -22,16 +20,8 @@ void Series::unfollow() noexcept {
     followed = false;
 }
 
-unsigned short Series::getGrade() const {
-    return grade;
-}
-
 unsigned short Series::getWeekday() const {
     return weekday;
-}
-
-const std::string &Series::getGenre() const {
-    return genre;
 }
 
 std::string Series::serialize() {
