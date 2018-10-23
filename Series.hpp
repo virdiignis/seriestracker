@@ -4,8 +4,9 @@
 
 #ifndef SERIESTRACKER_SERIES_HPP
 #define SERIESTRACKER_SERIES_HPP
+#define SERIES_LIST_PARAMS 4
 
-
+#include <array>
 #include "Film.hpp"
 
 class Series : public Film {
@@ -17,6 +18,8 @@ public:
            unsigned short weekday, const std::string &genre);
 
     unsigned short getWeekday() const;
+
+    const std::array<std::string, SERIES_LIST_PARAMS> getListParams() const;
 
     bool isFollowed() const noexcept;
 

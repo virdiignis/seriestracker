@@ -1,18 +1,15 @@
 #include <iostream>
-#include "Pool.cpp"
 #include "Series.hpp"
 #include "Interface.hpp"
+#include "Pool.cpp"
 
 
 int main() {
-    Pool<int> p;
-    p += 3;
-    p += 2;
-    p += 1;
-    p -= 2;
+    Pool<Series> p;
     //std::cout << p.sorted()[0];
-    //Series a("","",0,0,0,"");
+    p += Series("Dexter", "Very interesting series about killing.", 43, 89, 7, "Drama");
     Interface a;
+    a.list(p);
     a.menu();
     return 0;
 }

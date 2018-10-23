@@ -7,6 +7,8 @@
 
 #include <ncurses.h>
 #include "Series.hpp"
+#include "Ppv.hpp"
+#include "Pool.hpp"
 
 
 class Interface {
@@ -16,9 +18,18 @@ private:
 
     void welcome();
 
-    void topline();
+    void topkeys();
 
-    void endline();
+public:
+    void _colorLinePrint(int, int, const int[], const std::string[]) const;
+
+    void list(Pool<Series> &);
+
+    void list(Pool<Film> &);
+
+    void list(Pool<Ppv> &);
+
+    void bottomkeys();
 
 public:
     Interface();

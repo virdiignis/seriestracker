@@ -28,3 +28,8 @@ std::string Series::serialize() {
     return title + ":" + desc + ":" + std::to_string(runtime) + ":" + std::to_string(grade) + ":" +
            std::to_string(weekday) + ":" + genre + ":" + std::to_string(followed);
 }
+
+const std::array<std::string, SERIES_LIST_PARAMS> Series::getListParams() const {
+    std::array<std::string, SERIES_LIST_PARAMS> r = {title, genre, std::to_string(grade), std::to_string(followed)};
+    return r;
+}

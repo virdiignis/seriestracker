@@ -12,22 +12,11 @@
 #include <algorithm>
 
 template<typename T>
-class Pool {
-private:
-    std::vector<T> pool;
-
+class Pool : public std::vector<T> {
 public:
-    explicit Pool(const std::vector<T> &);
-
-    Pool() = default;
-
-    const std::vector<T> getVec() const noexcept;
-
     void operator+=(T const &) noexcept;
 
     void operator-=(T const &);
-
-    T &operator[](unsigned int index);
 
     Pool<T> sorted() const noexcept;
 
