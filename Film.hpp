@@ -21,6 +21,8 @@ public:
     const std::string &getGenre() const;
 
     std::string serialize() override;
+
+    bool operator<(const Film &);
 };
 
 

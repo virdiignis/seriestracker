@@ -10,6 +10,16 @@
 
 
 class Interface {
+private:
+    unsigned short view = 0;
+    unsigned short maxy, maxx;
+
+    void welcome();
+
+    void topline();
+
+    void endline();
+
 public:
     Interface();
 
@@ -20,6 +30,8 @@ public:
     void show_film(const Film &);
 
     //void show_ppv(const Ppv &);
+
+
 
     virtual ~Interface();
 };

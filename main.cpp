@@ -5,10 +5,14 @@
 
 
 int main() {
-//    Pool<Piece *> p;
-//    p += new Series("Dexter", "Ziom zabija chujów", 40, 88, 6, "drama");
-//    std::cout << p[0]->serialize();
-
+    Pool<int> p;
+    p += 3;
+    p += 2;
+    p += 1;
+    p -= 2;
+    //std::cout << p.sorted()[0];
+    //Series a("","",0,0,0,"");
     Interface a;
+    a.menu();
     return 0;
 }

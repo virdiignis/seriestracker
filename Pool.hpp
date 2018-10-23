@@ -8,6 +8,8 @@
 
 #include <vector>
 #include <string>
+#include <stdexcept>
+#include <algorithm>
 
 template<typename T>
 class Pool {
@@ -15,15 +17,15 @@ private:
     std::vector<T> pool;
 
 public:
-    explicit Pool(std::vector<T>);
+    explicit Pool(const std::vector<T> &);
 
     Pool() = default;
 
     const std::vector<T> getVec() const noexcept;
 
-    void operator+=(T) noexcept;
+    void operator+=(T const &) noexcept;
 
-    void operator-=(T element);
+    void operator-=(T const &);
 
     T &operator[](unsigned int index);
 

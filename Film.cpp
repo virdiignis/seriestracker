@@ -20,3 +20,7 @@ const std::string &Film::getGenre() const {
 std::string Film::serialize() {
     return title + ":" + desc + ":" + std::to_string(runtime) + ":" + std::to_string(grade) + ":" + genre;
 }
+
+bool Film::operator<(const Film &rhs) {
+    return grade < rhs.getGrade();
+}
