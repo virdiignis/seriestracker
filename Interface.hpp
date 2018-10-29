@@ -13,21 +13,45 @@
 
 class Interface {
 private:
+    template<typename T>
+    class LineCounter {
+    private:
+        int i = -1;
+        Pool<T> *p;
+    public:
+        LineCounter() = default;
+
+        explicit LineCounter(Pool<T> *p);
+
+        operator int() const;
+
+        void operator++(int);
+
+        void operator--(int);
+    };
     unsigned short view = 0;
     unsigned short maxy, maxx;
+    Pool<Series> series_pool;
+    LineCounter<Series> line_s;
 
     void welcome();
 
     void topkeys();
 
 public:
+    void setView(unsigned short view);
+
+public:
     void _colorLinePrint(int, int, const int[], const std::string[]) const;
 
-    void list(Pool<Series> &);
+    void list(Pool<Series> &, int);
 
     void list(Pool<Film> &);
 
     void list(Pool<Ppv> &);
+
+    void mainLoop();
+
 
     void bottomkeys();
 
@@ -46,6 +70,24 @@ public:
 
     virtual ~Interface();
 };
+
+template<typename T>
+Interface::LineCounter<T>::LineCounter(Pool<T> *p) : p(p) {}
+
+template<typename T>
+Interface::LineCounter<T>::operator int() const {
+    return i;
+}
+
+template<typename T>
+void Interface::LineCounter<T>::operator++(int) {
+    if (i + 1 < p->size()) i++;
+}
+
+template<typename T>
+void Interface::LineCounter<T>::operator--(int) {
+    if (i > 0) i--;
+}
 
 
 #endif //SERIESTRACKER_INTERFACE_HPP

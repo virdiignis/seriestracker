@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include "Interface.hpp"
+#include "Pool.cpp"
+
 
 Interface::Interface() {
     initscr();
@@ -14,23 +16,36 @@ Interface::Interface() {
     if (maxx < 60 || maxy < 5) throw std::runtime_error("Terminal window too small.");
     if (!has_colors()) throw std::runtime_error("Terminal doesn't support colors.");
     start_color();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
     init_pair(2, COLOR_WHITE, COLOR_GREEN);
     init_pair(3, COLOR_RED, COLOR_GREEN);
+    init_pair(4, COLOR_WHITE, COLOR_CYAN);
+    line_s = LineCounter<Series>(&series_pool);
+    //Constructing pool
+    //Pool<Series> series_pool;
+    //std::cout << series_pool.sorted()[0];
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 7, "Drama");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool[0].follow();
 }
 
 
 void Interface::topkeys() {
     const char *entries[] = {"F1: Series", "F2: Films", "F3: PPVs"};
-    attron(A_BOLD | COLOR_PAIR(1));
+    attron(A_BOLD);
     move(0, 0);
     for (unsigned short i = 0; i < 3; i++) {
         printw("\t");
-        if (view == i + 1) attron(COLOR_PAIR(3));
+        if (view == i + 1) attron(COLOR_PAIR(2));
+        else
+            attron(COLOR_PAIR(1));
         printw(entries[i]);
-        if (view == i + 1) attron(COLOR_PAIR(1));
+        if (view == i + 1) attroff(COLOR_PAIR(2));
+        else
+            attroff(COLOR_PAIR(1));
     }
-    attroff(A_BOLD | COLOR_PAIR(1));
+    attroff(A_BOLD);
+
 }
 
 
@@ -40,14 +55,15 @@ Interface::~Interface() {
 
 void Interface::menu() {
     topkeys();
-    welcome();
-    int c;
-    while ((c = getch())) {
-        view = static_cast<unsigned short>(c - 264);
-        //printw("%d", c);
-        clear();
-        topkeys();
+    switch (view) {
+        case 0:
+            welcome();
+            break;
+        case 1:
+            list(series_pool, line_s);
+            break;
     }
+
 }
 
 void Interface::welcome() {
@@ -55,13 +71,20 @@ void Interface::welcome() {
     mvprintw(maxy / 2, (maxx - static_cast<int>(welcomestr.length())) / 2, welcomestr.c_str());
 }
 
-void Interface::list(Pool<Series> &pool) {
+void Interface::list(Pool<Series> &pool, int active_line) {
     const unsigned short fields_count = 4;
     const int columns_width[fields_count] = {maxx - 50, 28, 12, 10};
     const std::string fields[fields_count] = {"Title", "Genre", "Grade", "Followed"};
     move(1, 0);
     _colorLinePrint(2, fields_count, columns_width, fields);
-    _colorLinePrint(0, fields_count, columns_width, pool[0].getListParams().data());
+    unsigned int i = 0;
+    for (auto &line: pool) {
+        if (i == active_line) attron(COLOR_PAIR(4));
+        _colorLinePrint(0, fields_count, columns_width, line.getListParams().data());
+        if (i == active_line) attroff(COLOR_PAIR(4));
+        i++;
+    }
+
 
 }
 
@@ -74,3 +97,49 @@ void Interface::_colorLinePrint(int color_pair, int fields_count, const int *col
     }
     attroff(COLOR_PAIR(color_pair));
 }
+
+void Interface::mainLoop() {
+    topkeys();
+    welcome();
+    int key = 0;
+    while ((key = getch())) {
+        switch (view) {
+            case 0:
+            case 1:
+                switch (key) {
+                    case 258:
+                        line_s++;
+                        setView(1);
+                        break;
+                    case 259:
+                        line_s--;
+                        setView(1);
+                        break;
+                }
+            case 2:
+            case 3:
+                topkeys();
+                switch (key) {
+                    case 266:
+                        setView(1);
+                        break;
+                    case 267:
+                        setView(2);
+                        break;
+                    case 268:
+                        setView(3);
+                        break;
+                }
+
+        }
+
+        //printw("%d", c);
+    }
+}
+
+void Interface::setView(unsigned short view) {
+    Interface::view = view;
+    clear();
+    menu();
+}
+

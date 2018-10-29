@@ -20,7 +20,7 @@ void Pool<T>::operator-=(T const &element) {
 template<typename T>
 Pool<T> Pool<T>::sorted() const noexcept {
     auto p = this;  //copy
-    //std::copy(this.begin(), this.end(), std::back_inserter(p));
+    //std::copy(this.begin(), this.end(), std::back_inserter(series_pool));
     std::sort(p.begin(), p.end());
     return p;
 }

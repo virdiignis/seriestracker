@@ -30,6 +30,8 @@ std::string Series::serialize() {
 }
 
 const std::array<std::string, SERIES_LIST_PARAMS> Series::getListParams() const {
-    std::array<std::string, SERIES_LIST_PARAMS> r = {title, genre, std::to_string(grade), std::to_string(followed)};
+    std::array<std::string, SERIES_LIST_PARAMS> r = {title, genre,
+                                                     std::to_string(grade / 10) + "," + std::to_string(grade % 10),
+                                                     (followed ? "[X]" : "[ ]")};
     return r;
 }
