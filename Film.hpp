@@ -4,9 +4,10 @@
 
 #ifndef SERIESTRACKER_FILM_HPP
 #define SERIESTRACKER_FILM_HPP
-
+#define FILM_LIST_PARAMS 3
 
 #include "Piece.hpp"
+#include <array>
 
 class Film : public Piece {
 protected:
@@ -21,6 +22,8 @@ public:
     const std::string &getGenre() const;
 
     std::string serialize() override;
+
+    const std::array<std::string, FILM_LIST_PARAMS> getListParams() const;
 
     bool operator<(const Film &);
 };

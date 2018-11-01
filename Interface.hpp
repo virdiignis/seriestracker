@@ -33,6 +33,10 @@ private:
     unsigned short maxy, maxx;
     Pool<Series> series_pool;
     LineCounter<Series> line_s;
+    Pool<Film> film_pool;
+    LineCounter<Film> line_f;
+    Pool<Ppv> ppv_pool;
+    LineCounter<Ppv> line_p;
 
     void welcome();
 
@@ -46,9 +50,9 @@ public:
 
     void list(Pool<Series> &, int);
 
-    void list(Pool<Film> &);
+    void list(Pool<Film> &, int);
 
-    void list(Pool<Ppv> &);
+    void list(Pool<Ppv> &, int);
 
     void mainLoop();
 

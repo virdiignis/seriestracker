@@ -4,9 +4,11 @@
 
 #ifndef SERIESTRACKER_PPV_HPP
 #define SERIESTRACKER_PPV_HPP
+#define PPV_LIST_PARAMS 4
 
-
+#include <array>
 #include "Piece.hpp"
+#include <ctime>
 
 class Ppv : public Piece {
 private:
@@ -28,6 +30,8 @@ public:
     bool isReminder() const;
 
     void setReminder(bool reminder);
+
+    std::array<std::string, PPV_LIST_PARAMS> getListParams() const;
 
     std::string serialize() override;
 };
