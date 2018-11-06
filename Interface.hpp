@@ -17,7 +17,7 @@ private:
     template<typename T>
     class LineCounter {
     private:
-        int i = -1;
+        unsigned int i = 0;
         Pool<T> *p;
     public:
         LineCounter() = default;
@@ -30,12 +30,14 @@ private:
 
         void operator--(int);
 
-        void operator=(int);
+        void operator=(unsigned int);
     };
     unsigned short view = 0;
     unsigned short max_y, max_x;
     Pool<Series> series_pool;
     LineCounter<Series> line_s;
+    Pool<Series *> filtered_pool;
+    LineCounter<Series *> line_fs;
     Pool<Film> film_pool;
     LineCounter<Film> line_f;
     Pool<Ppv> ppv_pool;
@@ -52,6 +54,8 @@ public:
     void _colorLinePrint(int, int, const int[], const std::string[]) const;
 
     void list(Pool<Series> &, int);
+
+    void list(Pool<Series *> &, int);
 
     void list(Pool<Film> &, int);
 
@@ -96,8 +100,7 @@ void Interface::LineCounter<T>::operator--(int) {
 }
 
 template<typename T>
-void Interface::LineCounter<T>::operator=(int s) {
-    if (s < -1) throw std::invalid_argument("Counter cannot be less than -1");
+void Interface::LineCounter<T>::operator=(unsigned int s) {
     i = s;
 }
 

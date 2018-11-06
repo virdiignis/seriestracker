@@ -22,6 +22,7 @@ Interface::Interface() {
     init_pair(3, COLOR_RED, COLOR_GREEN);
     init_pair(4, COLOR_WHITE, COLOR_CYAN);
     line_s = LineCounter<Series>(&series_pool);
+    line_fs = LineCounter<Series *>(&filtered_pool);
     line_f = LineCounter<Film>(&film_pool);
     line_p = LineCounter<Ppv>(&ppv_pool);
     series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 7, "Drama");
@@ -60,17 +61,18 @@ void Interface::bottomKeys() {
     int *width = nullptr;
     unsigned short entries_num = 0;
     switch (view) {
-        case 1:
+        case VIEW_SERIES_LIST:
+        case VIEW_SERIES_FILTERED:
             entries_num = BOTTOM_MENU_ENTRIES_SERIES_NUM;
             entries = new std::string[entries_num]BOTTOM_MENU_ENTRIES_SERIES;
             width = new int[entries_num]BOTTOM_MENU_ENTRIES_SERIES_WIDTHS;
             break;
-        case 2:
+        case VIEW_FILMS_LIST:
             entries_num = BOTTOM_MENU_ENTRIES_FILMS_NUM;
             entries = new std::string[entries_num]BOTTOM_MENU_ENTRIES_FILMS;
             width = new int[entries_num]BOTTOM_MENU_ENTRIES_FILMS_WIDTHS;
             break;
-        case 3:
+        case VIEW_PPVS_LIST:
             entries_num = BOTTOM_MENU_ENTRIES_PPVS_NUM;
             entries = new std::string[entries_num]BOTTOM_MENU_ENTRIES_PPVS;
             width = new int[entries_num]BOTTOM_MENU_ENTRIES_PPVS_WIDTHS;
@@ -116,7 +118,8 @@ void Interface::menu() {
             list(ppv_pool, line_p);
             break;
         case VIEW_SERIES_FILTERED:
-            list(series_pool, line_s);
+            list(filtered_pool, line_fs);
+            break;
         default:
             break;
     }
@@ -137,6 +140,20 @@ void Interface::list(Pool<Series> &pool, int active_line) {
     for (auto &line: pool) {
         if (i == active_line) attron(COLOR_PAIR(4));
         _colorLinePrint(0, SERIES_LIST_PARAMS, columns_width, line.getListParams().data());
+        if (i == active_line) attroff(COLOR_PAIR(4));
+        i++;
+    }
+}
+
+void Interface::list(Pool<Series *> &pool, int active_line) {
+    const int columns_width[SERIES_LIST_PARAMS] = SERIES_LIST_PARAMS_WIDTHS;
+    const std::string fields[SERIES_LIST_PARAMS] = SERIES_LIST_PARAMS_HEADERS;
+    move(1, 0);
+    _colorLinePrint(2, SERIES_LIST_PARAMS, columns_width, fields);
+    unsigned int i = 0;
+    for (auto &line: pool) {
+        if (i == active_line) attron(COLOR_PAIR(4));
+        _colorLinePrint(0, SERIES_LIST_PARAMS, columns_width, line->getListParams().data());
         if (i == active_line) attroff(COLOR_PAIR(4));
         i++;
     }
@@ -187,13 +204,13 @@ void Interface::mainLoop() {
         menu();
         switch (key) {
             case KEY_SERIES_LIST:
-                setView(1);
+                setView(VIEW_SERIES_LIST);
                 break;
             case KEY_FILMS_LIST:
-                setView(2);
+                setView(VIEW_FILMS_LIST);
                 break;
             case KEY_PPVS_LIST:
-                setView(3);
+                setView(VIEW_FILMS_LIST);
                 break;
             case KEY_QUIT:
                 endwin();
@@ -224,14 +241,12 @@ void Interface::mainLoop() {
                         series_pool.sort();
                         break;
                     case KEY_FILTER:
-                        line_s = 0;
-
-                        setView(VIEW_SERIES_FILTERED);
+                        filtered_pool = series_pool.filtered();
+                        if (!filtered_pool.empty()) setView(VIEW_SERIES_FILTERED);
                         break;
                     default:
                         break;
                 }
-                setView(VIEW_SERIES_LIST);
                 break;
             case VIEW_FILMS_LIST:
                 switch (key) {
@@ -253,7 +268,6 @@ void Interface::mainLoop() {
                     default:
                         break;
                 }
-                setView(VIEW_FILMS_LIST);
                 break;
             case VIEW_PPVS_LIST:
                 switch (key) {
@@ -278,12 +292,43 @@ void Interface::mainLoop() {
                     default:
                         break;
                 }
-                setView(VIEW_PPVS_LIST);
                 break;
-
+            case VIEW_SERIES_FILTERED:
+                switch (key) {
+                    case KEY_ARROW_DOWN:
+                        line_fs++;
+                        break;
+                    case KEY_ARROW_UP:
+                        line_fs--;
+                        break;
+                    case KEY_FOLLOW:
+                        filtered_pool[line_fs]->sfollow();
+                        line_fs--;
+                        filtered_pool = series_pool.filtered();
+                        if (filtered_pool.empty()) setView(VIEW_SERIES_LIST);
+                        break;
+                    case KEY_REMOVE:
+                        try {
+                            series_pool -= *filtered_pool[line_fs];
+                            filtered_pool -= line_fs;
+                            if (line_fs >= filtered_pool.size()) line_fs--;
+                        } catch (std::invalid_argument &e) {}
+                        break;
+                    case KEY_SORT:
+                        filtered_pool.sort();
+                        series_pool.sort();
+                        break;
+                    case KEY_FILTER:
+                        setView(VIEW_SERIES_LIST);
+                        break;
+                    default:
+                        break;
+                }
+                break;
             default:
                 break;
         }
+        setView(view);
     }
 }
 
