@@ -18,7 +18,7 @@ public:
 
     void operator-=(T const &);
 
-    Pool<T> sorted() const noexcept;
+    void sort() const noexcept;
 
     std::string serialize() const noexcept;
 

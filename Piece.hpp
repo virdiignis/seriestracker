@@ -16,6 +16,8 @@ protected:
     Piece(const std::string &title, const std::string &desc, unsigned short runtime);
 
 public:
+    bool operator==(const Piece &);
+
     const std::string &getTitle() const;
 
     const std::string &getDesc() const;

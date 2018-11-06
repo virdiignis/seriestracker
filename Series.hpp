@@ -23,7 +23,7 @@ public:
 
     bool isFollowed() const noexcept;
 
-    void follow() noexcept;
+    void sfollow() noexcept;
 
     void unfollow() noexcept;
 

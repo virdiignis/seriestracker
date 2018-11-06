@@ -22,12 +22,13 @@ Interface::Interface() {
     init_pair(4, COLOR_WHITE, COLOR_CYAN);
     line_s = LineCounter<Series>(&series_pool);
     line_f = LineCounter<Film>(&film_pool);
+    line_p = LineCounter<Ppv>(&ppv_pool);
     //Constructing pool
     //Pool<Series> series_pool;
-    //std::cout << series_pool.sorted()[0];
+    //std::cout << series_pool.sort()[0];
     series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 7, "Drama");
     series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool[0].follow();
+    series_pool[0].sfollow();
     film_pool += Film("Dexter", "Very interesting series about killing.", 43, 89, "Drama");
     film_pool += Film("Chuck", "Series about computers and CIA", 22, 90, "CIA");
     ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 143124312);
@@ -51,12 +52,59 @@ void Interface::topkeys() {
 
 }
 
+void Interface::bottomkeys() {
+    std::string *entries = nullptr;
+    int *width = nullptr;
+    unsigned short entries_num = 0;
+    switch (view) {
+        case 1:
+            entries_num = 6;
+            entries = new std::string[entries_num]{"q: Quit", "e: edit", "n: new", "r: remove", "f: sfollow/unfollow",
+                                                   "s: Sort"};
+            width = new int[entries_num]{maxx - 95, 16, 16, 20, 28, 15};
+            break;
+        case 2:
+            entries_num = 5;
+            entries = new std::string[entries_num]{"q: Quit", "e: edit", "n: new", "r: remove", "s: Sort"};
+            width = new int[entries_num]{maxx - 95, 25, 25, 30, 15};
+            break;
+        case 3:
+            entries_num = 6;
+            entries = new std::string[entries_num]{"q: Quit", "e: edit", "n: new", "r: remove", "f: set reminder",
+                                                   "s: Sort"};
+            width = new int[entries_num]{maxx - 95, 16, 16, 20, 28, 15};
+            break;
+        default:
+            delete[] entries;
+            delete[] width;
+            return;
+    }
+
+    move(maxy - 1, 0);
+    attron(A_BOLD);
+    _colorLinePrint(3, entries_num, width, entries);
+    attroff(A_BOLD);
+
+
+//    attron(A_BOLD | COLOR_PAIR(3));
+
+//    for (auto &entrie : entries) {
+//        printw(entrie);
+//        //printw("\t");
+//    }
+//    attroff(A_BOLD | COLOR_PAIR(3));
+    delete[] entries;
+    delete[] width;
+
+}
+
 Interface::~Interface() {
     endwin();
 }
 
 void Interface::menu() {
     topkeys();
+    bottomkeys();
     switch (view) {
         case 0:
             welcome();
@@ -132,11 +180,10 @@ void Interface::_colorLinePrint(int color_pair, int fields_count, const int *col
 }
 
 void Interface::mainLoop() {
-    topkeys();
-    welcome();
+    menu();
     int key = 0;
     while ((key = getch())) {
-        topkeys();
+        menu();
         switch (key) {
             case 266:
                 setView(1);
@@ -147,6 +194,9 @@ void Interface::mainLoop() {
             case 268:
                 setView(3);
                 break;
+            case 113:
+                endwin();
+                exit(0);
         }
         switch (view) {
             case 0:
@@ -154,32 +204,48 @@ void Interface::mainLoop() {
                 switch (key) {
                     case 258:
                         line_s++;
-                        setView(1);
                         break;
                     case 259:
                         line_s--;
-                        setView(1);
+                        break;
+                    case 102:
+                        series_pool[line_s].sfollow();
+                        break;
+                    case 114:
+                        try {
+                            series_pool -= series_pool[line_s];
+                        } catch (std::invalid_argument &e) {}
                         break;
                 }
+                setView(1);
                 break;
             case 2:
                 switch (key) {
                     case 258:
                         line_f++;
-                        setView(2);
                         break;
                     case 259:
                         line_f--;
-                        setView(2);
                         break;
                 }
+                setView(2);
                 break;
             case 3:
+                switch (key) {
+                    case 258:
+                        line_p++;
+                        break;
+                    case 259:
+                        line_p--;
+                        break;
+                    case 102:
+                        ppv_pool[line_p].setReminder(!ppv_pool[line_p].isReminder());
+                        break;
+                }
+                setView(3);
                 break;
 
         }
-
-        //printw("%d", c);
     }
 }
 

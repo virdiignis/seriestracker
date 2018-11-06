@@ -22,3 +22,7 @@ Piece::Piece(const std::string &title, const std::string &desc, unsigned short r
 void Piece::setDesc(const std::string &desc) {
     Piece::desc = desc;
 }
+
+bool Piece::operator==(const Piece &oth) {
+    return this->title == oth.title;
+}

@@ -12,8 +12,8 @@ bool Series::isFollowed() const noexcept {
     return followed;
 }
 
-void Series::follow() noexcept {
-    followed = true;
+void Series::sfollow() noexcept {
+    followed = !followed;
 }
 
 void Series::unfollow() noexcept {
