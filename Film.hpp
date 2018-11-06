@@ -4,8 +4,8 @@
 
 #ifndef SERIESTRACKER_FILM_HPP
 #define SERIESTRACKER_FILM_HPP
-#define FILM_LIST_PARAMS 3
 
+#include "constants.hpp"
 #include "Piece.hpp"
 #include <array>
 

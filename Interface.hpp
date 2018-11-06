@@ -29,9 +29,11 @@ private:
         void operator++(int);
 
         void operator--(int);
+
+        void operator=(int);
     };
     unsigned short view = 0;
-    unsigned short maxy, maxx;
+    unsigned short max_y, max_x;
     Pool<Series> series_pool;
     LineCounter<Series> line_s;
     Pool<Film> film_pool;
@@ -41,7 +43,7 @@ private:
 
     void welcome();
 
-    void topkeys();
+    void topKeys();
 
 public:
     void setView(unsigned short view);
@@ -57,7 +59,7 @@ public:
 
     void mainLoop();
 
-    void bottomkeys();
+    void bottomKeys();
 
 public:
     Interface();
@@ -91,6 +93,12 @@ void Interface::LineCounter<T>::operator++(int) {
 template<typename T>
 void Interface::LineCounter<T>::operator--(int) {
     if (i > 0) i--;
+}
+
+template<typename T>
+void Interface::LineCounter<T>::operator=(int s) {
+    if (s < -1) throw std::invalid_argument("Counter cannot be less than -1");
+    i = s;
 }
 
 

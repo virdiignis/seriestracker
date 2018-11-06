@@ -10,6 +10,7 @@
 #include <string>
 #include <stdexcept>
 #include <algorithm>
+#include "Series.hpp"
 
 template<typename T>
 class Pool : public std::vector<T> {
@@ -20,7 +21,9 @@ public:
 
     void operator-=(int);
 
-    void sort() const noexcept;
+    void sort() noexcept;
+
+    Pool<Series> filtered() const;
 
     std::string serialize() const noexcept;
 

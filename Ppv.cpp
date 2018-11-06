@@ -48,3 +48,7 @@ std::array<std::string, PPV_LIST_PARAMS> Ppv::getListParams() const {
     std::array<std::string, PPV_LIST_PARAMS> r = {title, pr, std::string(date), (reminder ? "[X]" : "[ ]")};
     return r;
 }
+
+bool Ppv::operator<(Ppv const &oth) {
+    return Ppv::start_time < oth.start_time;
+}

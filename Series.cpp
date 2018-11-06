@@ -24,3 +24,7 @@ const std::array<std::string, SERIES_LIST_PARAMS> Series::getListParams() const 
                                                      (followed ? "[X]" : "[ ]")};
     return r;
 }
+
+bool Series::isFollowed() const {
+    return followed;
+}

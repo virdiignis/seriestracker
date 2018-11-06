@@ -4,8 +4,8 @@
 
 #ifndef SERIESTRACKER_PPV_HPP
 #define SERIESTRACKER_PPV_HPP
-#define PPV_LIST_PARAMS 4
 
+#include "constants.hpp"
 #include <array>
 #include "Piece.hpp"
 #include <ctime>
@@ -34,6 +34,8 @@ public:
     std::array<std::string, PPV_LIST_PARAMS> getListParams() const;
 
     std::string serialize() override;
+
+    bool operator<(Ppv const &);
 };
 
 

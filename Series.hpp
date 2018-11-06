@@ -4,8 +4,8 @@
 
 #ifndef SERIESTRACKER_SERIES_HPP
 #define SERIESTRACKER_SERIES_HPP
-#define SERIES_LIST_PARAMS 4
 
+#include "constants.hpp"
 #include <array>
 #include "Film.hpp"
 
@@ -20,6 +20,8 @@ public:
     const std::array<std::string, SERIES_LIST_PARAMS> getListParams() const;
 
     void sfollow() noexcept;
+
+    bool isFollowed() const;
 
     std::string serialize() override;
 

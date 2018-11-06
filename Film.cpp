@@ -22,11 +22,12 @@ std::string Film::serialize() {
 }
 
 bool Film::operator<(const Film &rhs) {
-    return grade < rhs.getGrade();
+    return grade > rhs.getGrade();
 }
 
 const std::array<std::string, FILM_LIST_PARAMS> Film::getListParams() const {
-    std::array<std::string, FILM_LIST_PARAMS> r = {title, genre,
+    std::array<std::string, FILM_LIST_PARAMS> r = {title,
+                                                   genre,
                                                    std::to_string(grade / 10) + "," + std::to_string(grade % 10)};
     return r;
 }

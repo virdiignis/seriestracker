@@ -7,15 +7,14 @@
 #include "Pool.cpp"
 
 
-#define PPV_LIST_PARAMS_WIDTHS {maxx - 68, 28, 30, 10}
 
 Interface::Interface() {
     initscr();
     keypad(stdscr, true);
     noecho();
-    maxy = static_cast<unsigned short>getmaxy(stdscr);
-    maxx = static_cast<unsigned short>getmaxx(stdscr);
-    if (maxx < MIN_TERM_WIDTH || maxy < MIN_TERM_HEIGHT) throw std::runtime_error("Terminal window too small.");
+    max_y = static_cast<unsigned short>getmaxy(stdscr);
+    max_x = static_cast<unsigned short>getmaxx(stdscr);
+    if (max_x < MIN_TERM_WIDTH || max_y < MIN_TERM_HEIGHT) throw std::runtime_error("Terminal window too small.");
     if (!has_colors()) throw std::runtime_error("Terminal doesn't support colors.");
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLACK);
@@ -30,14 +29,15 @@ Interface::Interface() {
     series_pool[0].sfollow();
     film_pool += Film("Dexter", "Very interesting series about killing.", 43, 89, "Drama");
     film_pool += Film("Chuck", "Series about computers and CIA", 22, 90, "CIA");
-    ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 143124312);
+    ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 1541523251);
+    ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 1541523000);
 }
 
 Interface::~Interface() {
     endwin();
 }
 
-void Interface::topkeys() {
+void Interface::topKeys() {
     const char *entries[TOP_MENU_ENTRIES_NUM] = TOP_MENU_ENTRIES;
     attron(A_BOLD);
     move(0, 0);
@@ -55,7 +55,7 @@ void Interface::topkeys() {
 
 }
 
-void Interface::bottomkeys() {
+void Interface::bottomKeys() {
     std::string *entries = nullptr;
     int *width = nullptr;
     unsigned short entries_num = 0;
@@ -81,7 +81,7 @@ void Interface::bottomkeys() {
             return;
     }
 
-    move(maxy - 1, 0);
+    move(max_y - 1, 0);
     attron(A_BOLD);
     _colorLinePrint(3, entries_num, width, entries);
     attroff(A_BOLD);
@@ -100,8 +100,8 @@ void Interface::bottomkeys() {
 }
 
 void Interface::menu() {
-    topkeys();
-    bottomkeys();
+    topKeys();
+    bottomKeys();
     switch (view) {
         case VIEW_WELCOME:
             welcome();
@@ -115,6 +115,8 @@ void Interface::menu() {
         case VIEW_PPVS_LIST:
             list(ppv_pool, line_p);
             break;
+        case VIEW_SERIES_FILTERED:
+            list(series_pool, line_s);
         default:
             break;
     }
@@ -123,7 +125,7 @@ void Interface::menu() {
 
 void Interface::welcome() {
     const std::string welcome_string = WELCOME_STRING;
-    mvprintw(maxy / 2, (maxx - static_cast<int>(welcome_string.length())) / 2, welcome_string.c_str());
+    mvprintw(max_y / 2, (max_x - static_cast<int>(welcome_string.length())) / 2, welcome_string.c_str());
 }
 
 void Interface::list(Pool<Series> &pool, int active_line) {
@@ -196,6 +198,8 @@ void Interface::mainLoop() {
             case KEY_QUIT:
                 endwin();
                 exit(0);
+            default:
+                break;
         }
         switch (view) {
             case VIEW_WELCOME:
@@ -216,6 +220,16 @@ void Interface::mainLoop() {
                             if (line_s >= series_pool.size()) line_s--;
                         } catch (std::invalid_argument &e) {}
                         break;
+                    case KEY_SORT:
+                        series_pool.sort();
+                        break;
+                    case KEY_FILTER:
+                        line_s = 0;
+
+                        setView(VIEW_SERIES_FILTERED);
+                        break;
+                    default:
+                        break;
                 }
                 setView(VIEW_SERIES_LIST);
                 break;
@@ -232,6 +246,11 @@ void Interface::mainLoop() {
                             film_pool -= line_f;
                             if (line_f >= film_pool.size()) line_f--;
                         } catch (std::invalid_argument &e) {}
+                        break;
+                    case KEY_SORT:
+                        film_pool.sort();
+                        break;
+                    default:
                         break;
                 }
                 setView(VIEW_FILMS_LIST);
@@ -253,10 +272,17 @@ void Interface::mainLoop() {
                             if (line_p >= ppv_pool.size()) line_p--;
                         } catch (std::invalid_argument &e) {}
                         break;
+                    case KEY_SORT:
+                        ppv_pool.sort();
+                        break;
+                    default:
+                        break;
                 }
                 setView(VIEW_PPVS_LIST);
                 break;
 
+            default:
+                break;
         }
     }
 }
