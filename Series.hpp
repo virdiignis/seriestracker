@@ -17,11 +17,7 @@ public:
     Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
            unsigned short weekday, const std::string &genre);
 
-    unsigned short getWeekday() const;
-
     const std::array<std::string, SERIES_LIST_PARAMS> getListParams() const;
-
-    bool isFollowed() const noexcept;
 
     void sfollow() noexcept;
 

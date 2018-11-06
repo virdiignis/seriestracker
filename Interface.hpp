@@ -5,6 +5,7 @@
 #ifndef SERIESTRACKER_INTERFACE_HPP
 #define SERIESTRACKER_INTERFACE_HPP
 
+#include "constants.hpp"
 #include <ncurses.h>
 #include "Series.hpp"
 #include "Ppv.hpp"

@@ -8,16 +8,8 @@ Series::Series(const std::string &title, const std::string &desc, unsigned short
                unsigned short weekday, const std::string &genre) : Film(title, desc, runtime, grade, genre),
                                                                    weekday(weekday) {}
 
-bool Series::isFollowed() const noexcept {
-    return followed;
-}
-
 void Series::sfollow() noexcept {
     followed = !followed;
-}
-
-unsigned short Series::getWeekday() const {
-    return weekday;
 }
 
 std::string Series::serialize() {
@@ -26,7 +18,8 @@ std::string Series::serialize() {
 }
 
 const std::array<std::string, SERIES_LIST_PARAMS> Series::getListParams() const {
-    std::array<std::string, SERIES_LIST_PARAMS> r = {title, genre,
+    std::array<std::string, SERIES_LIST_PARAMS> r = {title,
+                                                     genre,
                                                      std::to_string(grade / 10) + "," + std::to_string(grade % 10),
                                                      (followed ? "[X]" : "[ ]")};
     return r;
