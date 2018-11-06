@@ -31,3 +31,9 @@ std::string Pool<T>::serialize() const noexcept {
     for (auto &it: *this) r += it.serialize() += "\n";
     return r;
 }
+
+template<typename T>
+void Pool<T>::operator-=(int i) {
+    if (this->size() <= i) throw std::invalid_argument("Index out of range!");
+    this->erase(this->begin() + i);
+}

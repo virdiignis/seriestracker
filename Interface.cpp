@@ -35,7 +35,7 @@ Interface::Interface() {
 }
 
 void Interface::topkeys() {
-    const char *entries[] = {"F1: Series", "F2: Films", "F3: PPVs"};
+    const char *entries[] = {"F2: Series", "F3: Films", "F4: PPVs"};
     attron(A_BOLD);
     move(0, 0);
     for (unsigned short i = 0; i < 3; i++) {
@@ -194,7 +194,7 @@ void Interface::mainLoop() {
             case 268:
                 setView(3);
                 break;
-            case 113:
+            case 'q':
                 endwin();
                 exit(0);
         }
@@ -208,12 +208,13 @@ void Interface::mainLoop() {
                     case 259:
                         line_s--;
                         break;
-                    case 102:
+                    case 'f':
                         series_pool[line_s].sfollow();
                         break;
-                    case 114:
+                    case 'r':
                         try {
-                            series_pool -= series_pool[line_s];
+                            series_pool -= line_s;
+                            if (line_s >= series_pool.size()) line_s--;
                         } catch (std::invalid_argument &e) {}
                         break;
                 }
@@ -226,6 +227,12 @@ void Interface::mainLoop() {
                         break;
                     case 259:
                         line_f--;
+                        break;
+                    case 'r':
+                        try {
+                            film_pool -= line_f;
+                            if (line_f >= film_pool.size()) line_f--;
+                        } catch (std::invalid_argument &e) {}
                         break;
                 }
                 setView(2);
@@ -240,6 +247,12 @@ void Interface::mainLoop() {
                         break;
                     case 102:
                         ppv_pool[line_p].setReminder(!ppv_pool[line_p].isReminder());
+                        break;
+                    case 'r':
+                        try {
+                            ppv_pool -= line_p;
+                            if (line_p >= ppv_pool.size()) line_p--;
+                        } catch (std::invalid_argument &e) {}
                         break;
                 }
                 setView(3);

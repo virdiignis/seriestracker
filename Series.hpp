@@ -25,8 +25,6 @@ public:
 
     void sfollow() noexcept;
 
-    void unfollow() noexcept;
-
     std::string serialize() override;
 
 

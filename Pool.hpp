@@ -18,6 +18,8 @@ public:
 
     void operator-=(T const &);
 
+    void operator-=(int);
+
     void sort() const noexcept;
 
     std::string serialize() const noexcept;

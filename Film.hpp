@@ -23,7 +23,7 @@ public:
 
     std::string serialize() override;
 
-    virtual const std::array<std::string, FILM_LIST_PARAMS> getListParams() const;
+    const std::array<std::string, FILM_LIST_PARAMS> getListParams() const;
 
     bool operator<(const Film &);
 };

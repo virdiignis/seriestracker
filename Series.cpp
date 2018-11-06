@@ -16,10 +16,6 @@ void Series::sfollow() noexcept {
     followed = !followed;
 }
 
-void Series::unfollow() noexcept {
-    followed = false;
-}
-
 unsigned short Series::getWeekday() const {
     return weekday;
 }
