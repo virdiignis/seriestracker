@@ -13,16 +13,19 @@
 #define VIEW_FILMS_LIST 2
 #define VIEW_PPVS_LIST 3
 #define VIEW_SERIES_FILTERED 4
+#define VIEW_SERIES 5
+#define VIEW_FILM 6
+#define VIEW_PPV 7
 
 //Minimal terminal size
-#define MIN_TERM_WIDTH 100
+#define MIN_TERM_WIDTH 80
 #define MIN_TERM_HEIGHT 5
 
-//Top menu
+//Top render
 #define TOP_MENU_ENTRIES_NUM 3
 #define TOP_MENU_ENTRIES {"F2: Series", "F3: Films", "F4: PPVs"}
 
-//Bottom menu
+//Bottom render
 #define BOTTOM_MENU_ENTRIES_SERIES_NUM 7
 #define BOTTOM_MENU_ENTRIES_SERIES {"q: Quit", "d: details", "n: new", "^r: remove", "f: follow/unfollow", "^f: filter followed", "s: Sort"}
 #define BOTTOM_MENU_ENTRIES_SERIES_WIDTHS {max_x - 123, 16, 16, 20, 28, 28, 15}

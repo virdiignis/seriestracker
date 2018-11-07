@@ -26,3 +26,11 @@ void Piece::setDesc(const std::string &desc) {
 bool Piece::operator==(const Piece &oth) {
     return this->title == oth.title;
 }
+
+std::map<std::string, std::string> Piece::getDetails() const {
+    std::map<std::string, std::string> m;
+    m["Title"] = title;
+    m["Description"] = desc;
+    m["Runtime"] = std::to_string(runtime) + "min";
+    return m;
+}

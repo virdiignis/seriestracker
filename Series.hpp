@@ -5,6 +5,8 @@
 #ifndef SERIESTRACKER_SERIES_HPP
 #define SERIESTRACKER_SERIES_HPP
 
+#define WEEKDAYS {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
+
 #include "constants.hpp"
 #include <array>
 #include "Film.hpp"
@@ -19,7 +21,11 @@ public:
 
     const std::array<std::string, SERIES_LIST_PARAMS> getListParams() const;
 
-    void sfollow() noexcept;
+    std::map<std::string, std::string> getDetails() const final;
+
+    void switchFollow() noexcept;
+
+    std::string strFollowed() const;
 
     bool isFollowed() const;
 

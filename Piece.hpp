@@ -6,6 +6,7 @@
 #define SERIESTRACKER_PIECE_HPP
 
 #include <string>
+#include <map>
 
 class Piece {
 protected:
@@ -16,6 +17,8 @@ protected:
     Piece(const std::string &title, const std::string &desc, unsigned short runtime);
 
 public:
+    virtual std::map<std::string, std::string> getDetails() const;
+
     bool operator==(const Piece &);
 
     const std::string &getTitle() const;

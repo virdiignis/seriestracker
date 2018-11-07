@@ -25,9 +25,9 @@ Interface::Interface() {
     line_fs = LineCounter<Series *>(&filtered_pool);
     line_f = LineCounter<Film>(&film_pool);
     line_p = LineCounter<Ppv>(&ppv_pool);
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 7, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
     series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool[0].sfollow();
+    series_pool[0].switchFollow();
     film_pool += Film("Dexter", "Very interesting series about killing.", 43, 89, "Drama");
     film_pool += Film("Chuck", "Series about computers and CIA", 22, 90, "CIA");
     ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 1541523251);
@@ -101,7 +101,7 @@ void Interface::bottomKeys() {
 
 }
 
-void Interface::menu() {
+void Interface::render() {
     topKeys();
     bottomKeys();
     switch (view) {
@@ -120,6 +120,9 @@ void Interface::menu() {
         case VIEW_SERIES_FILTERED:
             list(filtered_pool, line_fs);
             break;
+        case VIEW_SERIES:
+            details(&(series_pool[line_s]));
+            break;
         default:
             break;
     }
@@ -137,7 +140,7 @@ void Interface::list(Pool<Series> &pool, int active_line) {
     move(1, 0);
     _colorLinePrint(2, SERIES_LIST_PARAMS, columns_width, fields);
     unsigned int i = 0;
-    for (auto &line: pool) {
+    for (auto const &line: pool) {
         if (i == active_line) attron(COLOR_PAIR(4));
         _colorLinePrint(0, SERIES_LIST_PARAMS, columns_width, line.getListParams().data());
         if (i == active_line) attroff(COLOR_PAIR(4));
@@ -151,7 +154,7 @@ void Interface::list(Pool<Series *> &pool, int active_line) {
     move(1, 0);
     _colorLinePrint(2, SERIES_LIST_PARAMS, columns_width, fields);
     unsigned int i = 0;
-    for (auto &line: pool) {
+    for (auto const &line: pool) {
         if (i == active_line) attron(COLOR_PAIR(4));
         _colorLinePrint(0, SERIES_LIST_PARAMS, columns_width, line->getListParams().data());
         if (i == active_line) attroff(COLOR_PAIR(4));
@@ -165,7 +168,7 @@ void Interface::list(Pool<Film> &pool, int active_line) {
     move(1, 0);
     _colorLinePrint(2, FILM_LIST_PARAMS, columns_width, fields);
     unsigned int i = 0;
-    for (auto &line: pool) {
+    for (auto const &line: pool) {
         if (i == active_line) attron(COLOR_PAIR(4));
         _colorLinePrint(0, FILM_LIST_PARAMS, columns_width, line.getListParams().data());
         if (i == active_line) attroff(COLOR_PAIR(4));
@@ -179,7 +182,7 @@ void Interface::list(Pool<Ppv> &pool, int active_line) {
     move(1, 0);
     _colorLinePrint(2, PPV_LIST_PARAMS, columns_width, fields);
     unsigned int i = 0;
-    for (auto &line: pool) {
+    for (auto const &line: pool) {
         if (i == active_line) attron(COLOR_PAIR(4));
         _colorLinePrint(0, PPV_LIST_PARAMS, columns_width, line.getListParams().data());
         if (i == active_line) attroff(COLOR_PAIR(4));
@@ -198,10 +201,10 @@ void Interface::_colorLinePrint(int color_pair, int fields_count, const int *col
 }
 
 void Interface::mainLoop() {
-    menu();
+    render();
     int key = 0;
     while ((key = getch())) {
-        menu();
+        render();
         switch (key) {
             case KEY_SERIES_LIST:
                 setView(VIEW_SERIES_LIST);
@@ -210,7 +213,7 @@ void Interface::mainLoop() {
                 setView(VIEW_FILMS_LIST);
                 break;
             case KEY_PPVS_LIST:
-                setView(VIEW_FILMS_LIST);
+                setView(VIEW_PPVS_LIST);
                 break;
             case KEY_QUIT:
                 endwin();
@@ -229,7 +232,7 @@ void Interface::mainLoop() {
                         line_s--;
                         break;
                     case KEY_FOLLOW:
-                        series_pool[line_s].sfollow();
+                        series_pool[line_s].switchFollow();
                         break;
                     case KEY_REMOVE:
                         try {
@@ -244,6 +247,8 @@ void Interface::mainLoop() {
                         filtered_pool = series_pool.filtered();
                         if (!filtered_pool.empty()) setView(VIEW_SERIES_FILTERED);
                         break;
+                    case 10:
+                        setView(VIEW_SERIES);
                     default:
                         break;
                 }
@@ -302,7 +307,7 @@ void Interface::mainLoop() {
                         line_fs--;
                         break;
                     case KEY_FOLLOW:
-                        filtered_pool[line_fs]->sfollow();
+                        filtered_pool[line_fs]->switchFollow();
                         line_fs--;
                         filtered_pool = series_pool.filtered();
                         if (filtered_pool.empty()) setView(VIEW_SERIES_LIST);
@@ -335,6 +340,20 @@ void Interface::mainLoop() {
 void Interface::setView(unsigned short view) {
     Interface::view = view;
     clear();
-    menu();
+    render();
+}
+
+void Interface::details(const Piece *p) {
+    move(0, 0);
+    for (auto &entry: p->getDetails()) {
+        attron(A_BOLD);
+        printw(entry.first.c_str());
+        printw(":\t");
+        attroff(A_BOLD);
+        attron(COLOR_PAIR(4));
+        printw(entry.second.c_str());
+        printw("\n");
+        attroff(COLOR_PAIR(4));
+    }
 }
 

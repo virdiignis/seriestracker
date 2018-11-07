@@ -17,7 +17,9 @@ public:
     Film(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
          const std::string &genre);
 
-    unsigned short getGrade() const;
+    std::map<std::string, std::string> getDetails() const override;
+
+    std::string getGrade() const;
 
     const std::string &getGenre() const;
 

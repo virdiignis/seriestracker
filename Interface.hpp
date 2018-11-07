@@ -30,7 +30,7 @@ private:
 
         void operator--(int);
 
-        void operator=(unsigned int);
+        LineCounter &operator=(unsigned int);
     };
     unsigned short view = 0;
     unsigned short max_y, max_x;
@@ -47,10 +47,8 @@ private:
 
     void topKeys();
 
-public:
     void setView(unsigned short view);
 
-public:
     void _colorLinePrint(int, int, const int[], const std::string[]) const;
 
     void list(Pool<Series> &, int);
@@ -61,24 +59,18 @@ public:
 
     void list(Pool<Ppv> &, int);
 
-    void mainLoop();
-
     void bottomKeys();
 
+    void details(const Piece *);
+
+    void render();
+
 public:
+    void mainLoop();
+
     Interface();
 
-    void menu();
-
-    void show_series(const Series &);
-
-    void show_film(const Film &);
-
-    //void show_ppv(const Ppv &);
-
-
-
-    virtual ~Interface();
+    ~Interface();
 };
 
 template<typename T>
@@ -100,8 +92,9 @@ void Interface::LineCounter<T>::operator--(int) {
 }
 
 template<typename T>
-void Interface::LineCounter<T>::operator=(unsigned int s) {
+Interface::LineCounter<T> &Interface::LineCounter<T>::operator=(unsigned int s) {
     i = s;
+    return *this;
 }
 
 

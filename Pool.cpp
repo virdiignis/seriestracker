@@ -45,5 +45,3 @@ Pool<Series *> Pool<T>::filtered() {
     for (auto &item: *this) if (item.isFollowed()) p += &item;
     return p;
 }
-
-
