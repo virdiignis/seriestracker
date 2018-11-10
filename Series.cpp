@@ -17,12 +17,10 @@ std::string Series::serialize() {
            std::to_string(weekday) + ":" + genre + ":" + std::to_string(followed);
 }
 
-const std::array<std::string, SERIES_LIST_PARAMS> Series::getListParams() const {
-    std::array<std::string, SERIES_LIST_PARAMS> r = {title,
-                                                     genre,
-                                                     std::to_string(grade / 10) + "," + std::to_string(grade % 10),
-                                                     strFollowed()};
-    return r;
+std::map<std::string, std::string> Series::getListParams() const {
+    auto m = Film::getListParams();
+    m["Followed"] = strFollowed();
+    return m;
 }
 
 std::string Series::strFollowed() const {

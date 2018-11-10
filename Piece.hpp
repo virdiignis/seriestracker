@@ -17,6 +17,8 @@ protected:
     Piece(const std::string &title, const std::string &desc, unsigned short runtime);
 
 public:
+    virtual std::map<std::string, std::string> getListParams() const;
+
     virtual std::map<std::string, std::string> getDetails() const;
 
     bool operator==(const Piece &);

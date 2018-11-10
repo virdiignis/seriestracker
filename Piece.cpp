@@ -34,3 +34,9 @@ std::map<std::string, std::string> Piece::getDetails() const {
     m["Runtime"] = std::to_string(runtime) + "min";
     return m;
 }
+
+std::map<std::string, std::string> Piece::getListParams() const {
+    std::map<std::string, std::string> m;
+    m["Title"] = title;
+    return m;
+}

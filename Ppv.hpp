@@ -16,26 +16,28 @@ private:
     time_t start_time;
     bool reminder = false;
 
-public:
-    Ppv(const std::string &title, const std::string &desc, unsigned short runtime, float price, time_t start_time);
-
-    float getPrice() const;
+    std::string strPrice() const;
 
     void setPrice(float price);
 
-    time_t getStart_time() const;
+    std::string strStartTime() const;
 
-    void setStart_time(time_t start_time);
+    void setStartTime(time_t);
 
-    bool isReminder() const;
+public:
+    Ppv(const std::string &, const std::string &, unsigned short, float, time_t);
 
-    void setReminder(bool reminder);
+    std::string strReminder() const;
 
-    std::array<std::string, PPV_LIST_PARAMS> getListParams() const;
+    void flipReminder();
+
+    std::map<std::string, std::string> getListParams() const override;
 
     std::string serialize() override;
 
     bool operator<(Ppv const &);
+
+    std::map<std::string, std::string> getDetails() const override;
 };
 
 

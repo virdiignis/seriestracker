@@ -19,13 +19,13 @@ public:
 
     std::map<std::string, std::string> getDetails() const override;
 
-    std::string getGrade() const;
+    std::string strGrade() const;
 
     const std::string &getGenre() const;
 
     std::string serialize() override;
 
-    const std::array<std::string, FILM_LIST_PARAMS> getListParams() const;
+    std::map<std::string, std::string> getListParams() const override;
 
     bool operator<(const Film &);
 };

@@ -16,6 +16,7 @@
 #define VIEW_SERIES 5
 #define VIEW_FILM 6
 #define VIEW_PPV 7
+#define VIEW_SERIES_F 8
 
 //Minimal terminal size
 #define MIN_TERM_WIDTH 80
@@ -48,7 +49,7 @@
 #define FILM_LIST_PARAMS_WIDTHS {max_x - 50, 38, 12}
 
 #define PPV_LIST_PARAMS 4
-#define PPV_LIST_PARAMS_HEADERS {"Title", "Price", "Date", "Reminder"}
+#define PPV_LIST_PARAMS_HEADERS {"Title", "Price", "Start time", "Reminder"}
 #define PPV_LIST_PARAMS_WIDTHS {max_x - 68, 28, 30, 10}
 
 //Keys
@@ -63,6 +64,9 @@
 #define KEY_REMINDER 'f'
 #define KEY_REMOVE 18
 #define KEY_SORT 's'
+#define KEY_DETAILS 'd'
+
+#define WEEKDAYS {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
 
 
 #endif //SERIESTRACKER_CONSTANTS_HPP

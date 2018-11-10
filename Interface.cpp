@@ -7,7 +7,6 @@
 #include "Pool.cpp"
 
 
-
 Interface::Interface() {
     initscr();
     keypad(stdscr, true);
@@ -21,12 +20,65 @@ Interface::Interface() {
     init_pair(2, COLOR_WHITE, COLOR_GREEN);
     init_pair(3, COLOR_RED, COLOR_GREEN);
     init_pair(4, COLOR_WHITE, COLOR_CYAN);
+    init_pair(5, COLOR_WHITE, COLOR_BLUE);
     line_s = LineCounter<Series>(&series_pool);
     line_fs = LineCounter<Series *>(&filtered_pool);
     line_f = LineCounter<Film>(&film_pool);
     line_p = LineCounter<Ppv>(&ppv_pool);
     series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
+    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
     series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
+    //TODO... zakres rysowania :/
     series_pool[0].switchFollow();
     film_pool += Film("Dexter", "Very interesting series about killing.", 43, 89, "Drama");
     film_pool += Film("Chuck", "Series about computers and CIA", 22, 90, "CIA");
@@ -102,31 +154,43 @@ void Interface::bottomKeys() {
 }
 
 void Interface::render() {
-    topKeys();
-    bottomKeys();
     switch (view) {
         case VIEW_WELCOME:
+            topKeys();
             welcome();
             break;
         case VIEW_SERIES_LIST:
-            list(series_pool, line_s);
+            topKeys();
+            list(series_pool, line_s, line_s.getStartLine());
             break;
         case VIEW_FILMS_LIST:
-            list(film_pool, line_f);
+            topKeys();
+            list(film_pool, line_f, line_f.getStartLine());
             break;
         case VIEW_PPVS_LIST:
-            list(ppv_pool, line_p);
+            topKeys();
+            list(ppv_pool, line_p, line_p.getStartLine());
             break;
         case VIEW_SERIES_FILTERED:
-            list(filtered_pool, line_fs);
+            topKeys();
+            list(filtered_pool, line_fs, line_fs.getStartLine());
             break;
         case VIEW_SERIES:
             details(&(series_pool[line_s]));
             break;
+        case VIEW_SERIES_F:
+            details(filtered_pool[line_fs]);
+            break;
+        case VIEW_FILM:
+            details(&(film_pool[line_f]));
+            break;
+        case VIEW_PPV:
+            details(&(ppv_pool[line_p]));
+            break;
         default:
             break;
     }
-
+    bottomKeys();
 }
 
 void Interface::welcome() {
@@ -134,60 +198,57 @@ void Interface::welcome() {
     mvprintw(max_y / 2, (max_x - static_cast<int>(welcome_string.length())) / 2, welcome_string.c_str());
 }
 
-void Interface::list(Pool<Series> &pool, int active_line) {
-    const int columns_width[SERIES_LIST_PARAMS] = SERIES_LIST_PARAMS_WIDTHS;
-    const std::string fields[SERIES_LIST_PARAMS] = SERIES_LIST_PARAMS_HEADERS;
+void Interface::_list(Pool<Series *> &pool, unsigned int active_line, unsigned int start_line) {
+    int columns_width[SERIES_LIST_PARAMS]SERIES_LIST_PARAMS_WIDTHS;
+    std::string fields[SERIES_LIST_PARAMS]SERIES_LIST_PARAMS_HEADERS, data[SERIES_LIST_PARAMS];
     move(1, 0);
     _colorLinePrint(2, SERIES_LIST_PARAMS, columns_width, fields);
-    unsigned int i = 0;
-    for (auto const &line: pool) {
-        if (i == active_line) attron(COLOR_PAIR(4));
-        _colorLinePrint(0, SERIES_LIST_PARAMS, columns_width, line.getListParams().data());
-        if (i == active_line) attroff(COLOR_PAIR(4));
-        i++;
+    unsigned int j;
+    std::map<std::string, std::string> m;
+    for (int k = start_line; k < start_line + max_y - 3; ++k) {
+        if (k == active_line) attron(COLOR_PAIR(4));
+        j = 0;
+        m = pool[k]->getListParams();
+        for (auto &p: fields) data[j++] = m[p];
+        _colorLinePrint(0, SERIES_LIST_PARAMS, columns_width, data);
+        if (k == active_line) attroff(COLOR_PAIR(4));
     }
 }
 
-void Interface::list(Pool<Series *> &pool, int active_line) {
-    const int columns_width[SERIES_LIST_PARAMS] = SERIES_LIST_PARAMS_WIDTHS;
-    const std::string fields[SERIES_LIST_PARAMS] = SERIES_LIST_PARAMS_HEADERS;
-    move(1, 0);
-    _colorLinePrint(2, SERIES_LIST_PARAMS, columns_width, fields);
-    unsigned int i = 0;
-    for (auto const &line: pool) {
-        if (i == active_line) attron(COLOR_PAIR(4));
-        _colorLinePrint(0, SERIES_LIST_PARAMS, columns_width, line->getListParams().data());
-        if (i == active_line) attroff(COLOR_PAIR(4));
-        i++;
+template<typename T>
+void Interface::_list(Pool<T> &pool, unsigned int active_line, unsigned int start_line) {
+    int params = 0, *columns_width = nullptr;
+    std::string *fields = nullptr;
+    if (typeid(T) == typeid(Series)) {
+        params = SERIES_LIST_PARAMS;
+        columns_width = new int[SERIES_LIST_PARAMS]SERIES_LIST_PARAMS_WIDTHS;
+        fields = new std::string[SERIES_LIST_PARAMS]SERIES_LIST_PARAMS_HEADERS;
+    } else if (typeid(T) == typeid(Film)) {
+        params = FILM_LIST_PARAMS;
+        columns_width = new int[FILM_LIST_PARAMS]FILM_LIST_PARAMS_WIDTHS;
+        fields = new std::string[FILM_LIST_PARAMS]FILM_LIST_PARAMS_HEADERS;
+    } else if (typeid(T) == typeid(Ppv)) {
+        params = PPV_LIST_PARAMS;
+        columns_width = new int[PPV_LIST_PARAMS]PPV_LIST_PARAMS_WIDTHS;
+        fields = new std::string[PPV_LIST_PARAMS]PPV_LIST_PARAMS_HEADERS;
+    } else {
+        throw std::runtime_error("Pool of incorrect type passed to list in menu.");
     }
-}
 
-void Interface::list(Pool<Film> &pool, int active_line) {
-    const int columns_width[FILM_LIST_PARAMS] = FILM_LIST_PARAMS_WIDTHS;
-    const std::string fields[FILM_LIST_PARAMS] = FILM_LIST_PARAMS_HEADERS;
     move(1, 0);
-    _colorLinePrint(2, FILM_LIST_PARAMS, columns_width, fields);
-    unsigned int i = 0;
-    for (auto const &line: pool) {
-        if (i == active_line) attron(COLOR_PAIR(4));
-        _colorLinePrint(0, FILM_LIST_PARAMS, columns_width, line.getListParams().data());
-        if (i == active_line) attroff(COLOR_PAIR(4));
-        i++;
+    _colorLinePrint(2, params, columns_width, fields);
+    std::string data[params];
+    std::map<std::string, std::string> m;
+    for (int k = start_line; k < start_line + max_y - 3; ++k) {
+        if (k == active_line) attron(COLOR_PAIR(4));
+        m = pool[k].getListParams();
+        for (int j = 0; j < params; j++) data[j] = m[fields[j]];
+        _colorLinePrint(0, params, columns_width, data);
+        if (k == active_line) attroff(COLOR_PAIR(4));
     }
-}
 
-void Interface::list(Pool<Ppv> &pool, int active_line) {
-    const int columns_width[PPV_LIST_PARAMS] = PPV_LIST_PARAMS_WIDTHS;
-    const std::string fields[PPV_LIST_PARAMS] = PPV_LIST_PARAMS_HEADERS;
-    move(1, 0);
-    _colorLinePrint(2, PPV_LIST_PARAMS, columns_width, fields);
-    unsigned int i = 0;
-    for (auto const &line: pool) {
-        if (i == active_line) attron(COLOR_PAIR(4));
-        _colorLinePrint(0, PPV_LIST_PARAMS, columns_width, line.getListParams().data());
-        if (i == active_line) attroff(COLOR_PAIR(4));
-        i++;
-    }
+    delete[] columns_width;
+    delete[] fields;
 }
 
 void Interface::_colorLinePrint(int color_pair, int fields_count, const int *columns_width,
@@ -204,7 +265,6 @@ void Interface::mainLoop() {
     render();
     int key = 0;
     while ((key = getch())) {
-        render();
         switch (key) {
             case KEY_SERIES_LIST:
                 setView(VIEW_SERIES_LIST);
@@ -216,8 +276,7 @@ void Interface::mainLoop() {
                 setView(VIEW_PPVS_LIST);
                 break;
             case KEY_QUIT:
-                endwin();
-                exit(0);
+                return;
             default:
                 break;
         }
@@ -247,7 +306,7 @@ void Interface::mainLoop() {
                         filtered_pool = series_pool.filtered();
                         if (!filtered_pool.empty()) setView(VIEW_SERIES_FILTERED);
                         break;
-                    case 10:
+                    case KEY_DETAILS:
                         setView(VIEW_SERIES);
                     default:
                         break;
@@ -270,6 +329,8 @@ void Interface::mainLoop() {
                     case KEY_SORT:
                         film_pool.sort();
                         break;
+                    case KEY_DETAILS:
+                        setView(VIEW_FILM);
                     default:
                         break;
                 }
@@ -283,7 +344,7 @@ void Interface::mainLoop() {
                         line_p--;
                         break;
                     case KEY_REMINDER:
-                        ppv_pool[line_p].setReminder(!ppv_pool[line_p].isReminder());
+                        ppv_pool[line_p].flipReminder();
                         break;
                     case KEY_REMOVE:
                         try {
@@ -294,6 +355,8 @@ void Interface::mainLoop() {
                     case KEY_SORT:
                         ppv_pool.sort();
                         break;
+                    case KEY_DETAILS:
+                        setView(VIEW_PPV);
                     default:
                         break;
                 }
@@ -326,13 +389,43 @@ void Interface::mainLoop() {
                     case KEY_FILTER:
                         setView(VIEW_SERIES_LIST);
                         break;
+                    case KEY_DETAILS:
+                        setView(VIEW_SERIES_F);
                     default:
+                        break;
+                }
+                break;
+            case VIEW_SERIES:
+                switch (key) {
+                    case KEY_DETAILS:
+                        setView(VIEW_SERIES_LIST);
+                        break;
+                }
+                break;
+            case VIEW_FILM:
+                switch (key) {
+                    case KEY_DETAILS:
+                        setView(VIEW_FILMS_LIST);
+                        break;
+                }
+                break;
+            case VIEW_PPV:
+                switch (key) {
+                    case KEY_DETAILS:
+                        setView(VIEW_PPVS_LIST);
+                        break;
+                }
+                break;
+            case VIEW_SERIES_F:
+                switch (key) {
+                    case KEY_DETAILS:
+                        setView(VIEW_SERIES_FILTERED);
                         break;
                 }
                 break;
             default:
                 break;
-        }
+        } //TODO ppv implementation of getDetails, and enter to details and return from details for filtred series
         setView(view);
     }
 }
@@ -348,12 +441,18 @@ void Interface::details(const Piece *p) {
     for (auto &entry: p->getDetails()) {
         attron(A_BOLD);
         printw(entry.first.c_str());
-        printw(":\t");
+        printw(":");
+        move(getcury(stdscr), 25);
         attroff(A_BOLD);
-        attron(COLOR_PAIR(4));
+        attron(COLOR_PAIR(5));
         printw(entry.second.c_str());
         printw("\n");
-        attroff(COLOR_PAIR(4));
+        attroff(COLOR_PAIR(5));
     }
+}
+
+template<typename T>
+void Interface::list(Pool<T> &pool, unsigned int activeLine, unsigned int start_line) {
+    _list(pool, activeLine, start_line);
 }
 
