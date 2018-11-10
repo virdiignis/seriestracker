@@ -29,11 +29,11 @@
 //Bottom render
 #define BOTTOM_MENU_ENTRIES_SERIES_NUM 7
 #define BOTTOM_MENU_ENTRIES_SERIES {"q: Quit", "d: details", "n: new", "^r: remove", "f: follow/unfollow", "^f: filter followed", "s: Sort"}
-#define BOTTOM_MENU_ENTRIES_SERIES_WIDTHS {max_x - 123, 16, 16, 20, 28, 28, 15}
+#define BOTTOM_MENU_ENTRIES_SERIES_WIDTHS {max_x - 82, 12, 8, 12, 20, 21, 9}
 
 #define BOTTOM_MENU_ENTRIES_FILMS_NUM 5
 #define BOTTOM_MENU_ENTRIES_FILMS {"q: Quit", "d: details", "n: new", "^r: remove", "s: Sort"}
-#define BOTTOM_MENU_ENTRIES_FILMS_WIDTHS {max_x - 95, 25, 25, 30, 15}
+#define BOTTOM_MENU_ENTRIES_FILMS_WIDTHS {max_x - 41, 12, 8, 12, 9}
 
 #define BOTTOM_MENU_ENTRIES_PPVS_NUM 6
 #define BOTTOM_MENU_ENTRIES_PPVS {"q: Quit", "d: details", "n: new", "^r: remove", "f: set reminder", "s: Sort"}

@@ -78,8 +78,6 @@ Interface::Interface() {
     series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
     series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
     series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    //TODO... zakres rysowania :/
-    series_pool[0].switchFollow();
     film_pool += Film("Dexter", "Very interesting series about killing.", 43, 89, "Drama");
     film_pool += Film("Chuck", "Series about computers and CIA", 22, 90, "CIA");
     ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 1541523251);
@@ -140,14 +138,6 @@ void Interface::bottomKeys() {
     _colorLinePrint(3, entries_num, width, entries);
     attroff(A_BOLD);
 
-
-//    attron(A_BOLD | COLOR_PAIR(3));
-
-//    for (auto &entrie : entries) {
-//        printw(entrie);
-//        //printw("\t");
-//    }
-//    attroff(A_BOLD | COLOR_PAIR(3));
     delete[] entries;
     delete[] width;
 
@@ -205,7 +195,7 @@ void Interface::_list(Pool<Series *> &pool, unsigned int active_line, unsigned i
     _colorLinePrint(2, SERIES_LIST_PARAMS, columns_width, fields);
     unsigned int j;
     std::map<std::string, std::string> m;
-    for (int k = start_line; k < start_line + max_y - 3; ++k) {
+    for (int k = start_line; k < start_line + max_y - 3 && k < pool.size() + start_line; ++k) {
         if (k == active_line) attron(COLOR_PAIR(4));
         j = 0;
         m = pool[k]->getListParams();
@@ -239,7 +229,7 @@ void Interface::_list(Pool<T> &pool, unsigned int active_line, unsigned int star
     _colorLinePrint(2, params, columns_width, fields);
     std::string data[params];
     std::map<std::string, std::string> m;
-    for (int k = start_line; k < start_line + max_y - 3; ++k) {
+    for (int k = start_line; k < start_line + max_y - 3 && k < pool.size() + start_line; ++k) {
         if (k == active_line) attron(COLOR_PAIR(4));
         m = pool[k].getListParams();
         for (int j = 0; j < params; j++) data[j] = m[fields[j]];
