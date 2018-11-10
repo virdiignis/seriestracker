@@ -21,6 +21,7 @@ Interface::Interface() {
     init_pair(3, COLOR_RED, COLOR_GREEN);
     init_pair(4, COLOR_WHITE, COLOR_CYAN);
     init_pair(5, COLOR_WHITE, COLOR_BLUE);
+    init_pair(6, COLOR_WHITE, COLOR_RED);
     line_s = LineCounter<Series>(&series_pool);
     line_fs = LineCounter<Series *>(&filtered_pool);
     line_f = LineCounter<Film>(&film_pool);
@@ -132,12 +133,16 @@ void Interface::bottomKeys() {
             delete[] width;
             return;
     }
-
-    move(max_y - 1, 0);
-    attron(A_BOLD);
-    _colorLinePrint(3, entries_num, width, entries);
-    attroff(A_BOLD);
-
+    try {
+        move(max_y - 1, 0);
+        attron(A_BOLD);
+        _colorLinePrint(3, entries_num, width, entries);
+        attroff(A_BOLD);
+    } catch (std::exception &e) {
+        delete[] entries;
+        delete[] width;
+        throw e;
+    }
     delete[] entries;
     delete[] width;
 
@@ -166,16 +171,16 @@ void Interface::render() {
             list(filtered_pool, line_fs, line_fs.getStartLine());
             break;
         case VIEW_SERIES:
-            details(&(series_pool[line_s]));
+            details(&(series_pool[line_s]), -1);
             break;
         case VIEW_SERIES_F:
-            details(filtered_pool[line_fs]);
+            details(filtered_pool[line_fs], -1);
             break;
         case VIEW_FILM:
-            details(&(film_pool[line_f]));
+            details(&(film_pool[line_f]), -1);
             break;
         case VIEW_PPV:
-            details(&(ppv_pool[line_p]));
+            details(&(ppv_pool[line_p]), -1);
             break;
         default:
             break;
@@ -298,6 +303,10 @@ void Interface::mainLoop() {
                         break;
                     case KEY_DETAILS:
                         setView(VIEW_SERIES);
+                        break;
+                    case KEY_EDIT:
+                        _edit(series_pool[line_s]);
+                        break;
                     default:
                         break;
                 }
@@ -373,14 +382,17 @@ void Interface::mainLoop() {
                         } catch (std::invalid_argument &e) {}
                         break;
                     case KEY_SORT:
-                        filtered_pool.sort();
                         series_pool.sort();
+                        filtered_pool = series_pool.filtered();
                         break;
                     case KEY_FILTER:
                         setView(VIEW_SERIES_LIST);
                         break;
                     case KEY_DETAILS:
                         setView(VIEW_SERIES_F);
+                        break;
+                    case KEY_EDIT:
+                        _edit(filtered_pool[line_fs]);
                     default:
                         break;
                 }
@@ -426,7 +438,8 @@ void Interface::setView(unsigned short view) {
     render();
 }
 
-void Interface::details(const Piece *p) {
+void Interface::details(const Piece *p, int active_line = -1) {
+    int j = 0;
     move(0, 0);
     for (auto &entry: p->getDetails()) {
         attron(A_BOLD);
@@ -434,10 +447,11 @@ void Interface::details(const Piece *p) {
         printw(":");
         move(getcury(stdscr), 25);
         attroff(A_BOLD);
-        attron(COLOR_PAIR(5));
+        attron(COLOR_PAIR(j == active_line ? 6 : 5));
         printw(entry.second.c_str());
         printw("\n");
-        attroff(COLOR_PAIR(5));
+        attroff(COLOR_PAIR(j == active_line ? 6 : 5));
+        ++j;
     }
 }
 
@@ -446,3 +460,45 @@ void Interface::list(Pool<T> &pool, unsigned int activeLine, unsigned int start_
     _list(pool, activeLine, start_line);
 }
 
+template<typename T>
+void Interface::_edit(T &piece) {
+    auto piece_details = piece.getDetails();
+    auto line = Counter(piece_details.size());
+    setView(VIEW_EDIT);
+    int key = 0;
+    do {
+        switch (key) {
+            case KEY_ARROW_DOWN:
+                line++;
+                break;
+            case KEY_ARROW_UP:
+                line--;
+                break;
+            default:
+                break;
+        }
+        details(&piece, line);
+    } while ((key = getch()));
+}
+
+void Interface::_edit(Series *&piece) {
+    _edit(*piece);
+}
+
+Interface::Counter::Counter(unsigned int max) : max(max) {}
+
+void Interface::Counter::operator++(int) {
+    if (i + 1 < max) ++i;
+}
+
+void Interface::Counter::operator--(int) {
+    if (i) --i;
+}
+
+Interface::Counter::operator unsigned int() {
+    return i;
+}
+
+Interface::Counter::operator int() {
+    return i;
+}

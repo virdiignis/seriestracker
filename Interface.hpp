@@ -14,20 +14,35 @@
 
 class Interface {
 private:
+    class Counter {
+    private:
+        unsigned int i = 0, max = 0;
+    public:
+        explicit Counter(unsigned int max);
+
+        operator unsigned int();
+
+        operator int();
+
+        void operator++(int);
+
+        void operator--(int);
+    };
+
     template<typename T>
     class LineCounter {
     private:
-        Pool<T> *p;
+        std::vector<T> *p;
         unsigned int i = 0;
         unsigned int start_line = 0;
         int max_y = getmaxy(stdscr);
     public:
         unsigned int
-        getStartLine() const; //TODO... mozna to przepisać na rzutowanie do std::pair w szczeŋólnych przyapdkach i zmienić funkcje list interfejsu.
+        getStartLine() const; //TODO... można to przepisać na rzutowanie do std::pair w szczeŋólnych przyapdkach i zmienić funkcje list interfejsu.
 
         LineCounter() = default;
 
-        explicit LineCounter(Pool<T> *p);
+        explicit LineCounter(std::vector<T> *p);
 
         operator unsigned int() const;
 
@@ -57,6 +72,11 @@ private:
 
     void _colorLinePrint(int, int, const int[], const std::string[]) const;
 
+    void _edit(Series *&);
+
+    template<typename T>
+    void _edit(T &);
+
     template<typename T>
     void _list(Pool<T> &, unsigned int, unsigned int);
 
@@ -67,7 +87,7 @@ private:
 
     void bottomKeys();
 
-    void details(const Piece *);
+    void details(const Piece *, int active_line);
 
     void render();
 
@@ -80,7 +100,7 @@ public:
 };
 
 template<typename T>
-Interface::LineCounter<T>::LineCounter(Pool<T> *p) : p(p) {}
+Interface::LineCounter<T>::LineCounter(std::vector<T> *p) : p(p) {}
 
 template<typename T>
 Interface::LineCounter<T>::operator unsigned int() const {

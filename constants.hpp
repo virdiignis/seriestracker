@@ -17,6 +17,7 @@
 #define VIEW_FILM 6
 #define VIEW_PPV 7
 #define VIEW_SERIES_F 8
+#define VIEW_EDIT 9
 
 //Minimal terminal size
 #define MIN_TERM_WIDTH 80
@@ -65,6 +66,7 @@
 #define KEY_REMOVE 18
 #define KEY_SORT 's'
 #define KEY_DETAILS 'd'
+#define KEY_EDIT 'e'
 
 #define WEEKDAYS {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
 
