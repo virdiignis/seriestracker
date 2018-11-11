@@ -5,9 +5,6 @@
 #include <iomanip>
 #include "Ppv.hpp"
 
-Ppv::Ppv(const std::string &title, const std::string &desc, unsigned short runtime, float price, time_t startTime)
-        : Piece(title, desc, runtime), price(price), start_time(startTime) {}
-
 std::string Ppv::strReminder() const {
     return (reminder ? "[X]" : "[ ]");
 }
@@ -32,10 +29,6 @@ std::string Ppv::strStartTime() const {
     dt = localtime(&start_time);
     std::strftime(date, sizeof(date), "%d/%m/%Y %H:%M", dt);
     return std::string(date);
-}
-
-void Ppv::setStartTime(time_t start_time) {
-    Ppv::start_time = start_time;
 }
 
 std::string Ppv::serialize() {

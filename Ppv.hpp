@@ -16,20 +16,18 @@ private:
     time_t start_time = time(nullptr);
     bool reminder = false;
 
-    std::string strPrice() const;
+    friend class Interface;
 
-    void setPrice(float price);
+    std::string strPrice() const;
 
     std::string strStartTime() const;
 
-    void setStartTime(time_t);
+    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
+
+    void setPrice(float price);
 
 public:
-    Ppv(const std::string &, const std::string &, unsigned short, float, time_t);
-
     Ppv() = default;
-
-    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
 
     std::string strReminder() const;
 

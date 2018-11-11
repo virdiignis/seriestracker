@@ -6,6 +6,9 @@
 #define SERIESTRACKER_CONSTANTS_HPP
 
 #define WELCOME_STRING "Welcome to SeriesTracker. Use keys as shown above and below to navigate."
+#define DETAILS_TAB 25
+#define MAX_SHORT 65535
+#define WEEKDAYS {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
 
 //Interface views
 #define VIEW_WELCOME 0
@@ -98,9 +101,4 @@
 #define KEY_DELETE 330
 #define KEY_NEW 'n'
 
-#define WEEKDAYS {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
-
-
-#define DETAILS_TAB 25
-#define MAX_SHORT 65535
 #endif //SERIESTRACKER_CONSTANTS_HPP

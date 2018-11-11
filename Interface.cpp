@@ -245,7 +245,7 @@ void Interface::mainLoop() {
                         setView(view);
                         break;
                     case KEY_FOLLOW:
-                        series_pool[line_s].switchFollow();
+                        series_pool[line_s].flipFollow();
                         setView(view);
                         break;
                     case KEY_REMOVE:
@@ -427,7 +427,7 @@ void Interface::mainLoop() {
 }
 
 void Interface::filtered_unfollow() {
-    filtered_pool[line_fs]->switchFollow();
+    filtered_pool[line_fs]->flipFollow();
     line_fs--;
     filtered_pool = series_pool.filtered();
     if (filtered_pool.empty()) setView(VIEW_SERIES_LIST);

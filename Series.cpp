@@ -4,11 +4,7 @@
 
 #include "Series.hpp"
 
-Series::Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
-               unsigned short weekday, const std::string &genre) : Film(title, desc, runtime, grade, genre),
-                                                                   weekday(weekday) {}
-
-void Series::switchFollow() noexcept {
+void Series::flipFollow() noexcept {
     followed = !followed;
 }
 
@@ -43,7 +39,7 @@ std::map<std::string, std::string> Series::getDetails() const {
     return m;
 }
 
-bool Series::isFollowed() const {
+const bool Series::isFollowed() const {
     return followed;
 }
 

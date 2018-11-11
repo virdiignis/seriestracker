@@ -97,13 +97,6 @@ private:
 
     void render();
 
-public:
-    void mainLoop();
-
-    Interface();
-
-    ~Interface();
-
     void series_new();
 
     void series_filter();
@@ -113,6 +106,13 @@ public:
     void ppv_new();
 
     void filtered_unfollow();
+
+public:
+    void mainLoop();
+
+    Interface();
+
+    ~Interface();
 };
 
 template<typename T>

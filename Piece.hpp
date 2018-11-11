@@ -14,14 +14,11 @@ protected:
     std::string title = "     ", desc = "     ";
     unsigned short runtime = 0;
 
-protected:
-    Piece(const std::string &title, const std::string &desc, unsigned short runtime);
+    virtual std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string);
 
     Piece() = default;
 
 public:
-    virtual std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string);
-
     virtual std::map<std::string, std::string> getListParams() const;
 
     virtual std::map<std::string, std::string> getDetails() const;
@@ -29,12 +26,6 @@ public:
     bool operator==(const Piece &);
 
     const std::string &getTitle() const;
-
-    const std::string &getDesc() const;
-
-    void setDesc(const std::string &desc);
-
-    unsigned short getRuntime() const;
 
     virtual std::string serialize() = 0;
 
