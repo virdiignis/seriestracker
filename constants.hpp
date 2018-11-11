@@ -67,8 +67,11 @@
 #define KEY_SORT 's'
 #define KEY_DETAILS 'd'
 #define KEY_EDIT 'e'
+#define KEY_ESC 27
+#define KEY_BS 127
 
 #define WEEKDAYS {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
 
 
+#define DETAILS_TAB 25
 #endif //SERIESTRACKER_CONSTANTS_HPP

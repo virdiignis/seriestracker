@@ -445,7 +445,7 @@ void Interface::details(const Piece *p, int active_line = -1) {
         attron(A_BOLD);
         printw(entry.first.c_str());
         printw(":");
-        move(getcury(stdscr), 25);
+        move(getcury(stdscr), DETAILS_TAB);
         attroff(A_BOLD);
         attron(COLOR_PAIR(j == active_line ? 6 : 5));
         printw(entry.second.c_str());
@@ -462,22 +462,61 @@ void Interface::list(Pool<T> &pool, unsigned int activeLine, unsigned int start_
 
 template<typename T>
 void Interface::_edit(T &piece) {
+    bool insert_mode = false;
+    std::string insert = "";
     auto piece_details = piece.getDetails();
     auto line = Counter(piece_details.size());
+    std::vector<std::string> attrs;
+    for (const auto &d: piece_details) attrs.push_back(d.first);
+    char buff[1];
     setView(VIEW_EDIT);
     int key = 0;
     do {
-        switch (key) {
-            case KEY_ARROW_DOWN:
-                line++;
+        switch (insert_mode) {
+            case false:
+                switch (key) {
+                    case KEY_ARROW_DOWN:
+                        line++;
+                        break;
+                    case KEY_ARROW_UP:
+                        line--;
+                        break;
+                    case KEY_EDIT: //TODO... allow to modify only string values this way
+                        move(line, DETAILS_TAB);
+                        attron(COLOR_PAIR(6));
+                        for (int i = 0; i < piece_details[attrs[line]].size(); ++i) mvdelch(line, DETAILS_TAB);
+                        move(line, DETAILS_TAB);
+                        insert = "";
+                        insert_mode = true;
+                        continue;
+                }
+                details(&piece, line);
                 break;
-            case KEY_ARROW_UP:
-                line--;
-                break;
-            default:
+            case true:
+                switch (key) {
+                    case 10: //TODO... constants
+                        printw(insert.c_str());
+                        //piece.setAttr(attrs[line], insert); //TODO... actually set atrrs
+                    case KEY_ESC:
+                        insert_mode = false;
+                        attroff(COLOR_PAIR(6));
+                        break;
+                    case KEY_FILTER:
+                        if (getcurx(stdscr) > DETAILS_TAB) {
+                            mvdelch(line, getcurx(stdscr) - 1);
+                            insert.erase(insert.end() - 1);
+                        }
+                        break;
+                    default:
+                        buff[0] = static_cast<char>(key);
+                        printw(buff);
+                        insert += static_cast<char>(key);
+                        break;
+
+
+                }
                 break;
         }
-        details(&piece, line);
     } while ((key = getch()));
 }
 
@@ -500,5 +539,9 @@ Interface::Counter::operator unsigned int() {
 }
 
 Interface::Counter::operator int() {
+    return i;
+}
+
+Interface::Counter::operator unsigned long() {
     return i;
 }

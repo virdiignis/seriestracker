@@ -24,6 +24,8 @@ private:
 
         operator int();
 
+        operator unsigned long();
+
         void operator++(int);
 
         void operator--(int);
