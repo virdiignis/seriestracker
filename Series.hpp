@@ -17,6 +17,8 @@ public:
     Series(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
            unsigned short weekday, const std::string &genre);
 
+    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
+
     std::map<std::string, std::string> getListParams() const final;
 
     std::map<std::string, std::string> getDetails() const final;

@@ -27,6 +27,8 @@ private:
 public:
     Ppv(const std::string &, const std::string &, unsigned short, float, time_t);
 
+    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
+
     std::string strReminder() const;
 
     void flipReminder();

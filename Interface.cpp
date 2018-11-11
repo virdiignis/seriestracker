@@ -306,6 +306,7 @@ void Interface::mainLoop() {
                         break;
                     case KEY_EDIT:
                         _edit(series_pool[line_s]);
+                        setView(VIEW_SERIES_LIST);
                         break;
                     default:
                         break;
@@ -393,6 +394,7 @@ void Interface::mainLoop() {
                         break;
                     case KEY_EDIT:
                         _edit(filtered_pool[line_fs]);
+                        setView(VIEW_SERIES_FILTERED);
                     default:
                         break;
                 }
@@ -439,20 +441,36 @@ void Interface::setView(unsigned short view) {
 }
 
 void Interface::details(const Piece *p, int active_line = -1) {
+    int size = 0;
+    std::string *attrs = nullptr;
+    if (typeid(*p) == typeid(Series)) {
+        size = SERIES_DETAILS_NO;
+        attrs = new std::string[SERIES_DETAILS_NO]SERIES_DETAILS;
+    } else if (typeid(*p) == typeid(Film)) {
+        size = FILM_DETAILS_NO;
+        attrs = new std::string[FILM_DETAILS_NO]FILM_DETAILS;
+    } else if (typeid(*p) == typeid(Ppv)) {
+        size = PPV_DETAILS_NO;
+        attrs = new std::string[PPV_DETAILS_NO]PPV_DETAILS;
+    } else {
+        throw std::runtime_error("Incorrect type passed to details.");
+    }
     int j = 0;
+    auto piece_details = p->getDetails();
     move(0, 0);
-    for (auto &entry: p->getDetails()) {
+    for (int i = 0; i < size; ++i) {
         attron(A_BOLD);
-        printw(entry.first.c_str());
+        printw(attrs[i].c_str());
         printw(":");
         move(getcury(stdscr), DETAILS_TAB);
         attroff(A_BOLD);
         attron(COLOR_PAIR(j == active_line ? 6 : 5));
-        printw(entry.second.c_str());
+        printw(piece_details[attrs[i]].c_str());
         printw("\n");
         attroff(COLOR_PAIR(j == active_line ? 6 : 5));
         ++j;
     }
+    delete[] attrs;
 }
 
 template<typename T>
@@ -462,62 +480,91 @@ void Interface::list(Pool<T> &pool, unsigned int activeLine, unsigned int start_
 
 template<typename T>
 void Interface::_edit(T &piece) {
-    bool insert_mode = false;
-    std::string insert = "";
+    std::string *attrs = nullptr;
+    int *types = nullptr;
+    if (typeid(T) == typeid(Series)) {
+        attrs = new std::string[SERIES_DETAILS_NO]SERIES_DETAILS;
+        types = new int[SERIES_DETAILS_NO]SERIES_DETAILS_TYPES;
+    } else if (typeid(T) == typeid(Film)) {
+        attrs = new std::string[FILM_DETAILS_NO]FILM_DETAILS;
+        types = new int[FILM_DETAILS_NO]FILM_DETAILS_TYPES;
+    } else if (typeid(T) == typeid(Ppv)) {
+        attrs = new std::string[PPV_DETAILS_NO]PPV_DETAILS;
+        types = new int[PPV_DETAILS_NO]PPV_DETAILS_TYPES;
+    } else {
+        throw std::runtime_error("Incorrect type passed to editor.");
+    }
+
+
+    bool insert_mode = false, endwhile = false;
+    std::string insert;
     auto piece_details = piece.getDetails();
     auto line = Counter(piece_details.size());
-    std::vector<std::string> attrs;
-    for (const auto &d: piece_details) attrs.push_back(d.first);
     char buff[1];
+    //unsigned short last_view = view;
     setView(VIEW_EDIT);
     int key = 0;
     do {
-        switch (insert_mode) {
-            case false:
-                switch (key) {
-                    case KEY_ARROW_DOWN:
-                        line++;
-                        break;
-                    case KEY_ARROW_UP:
-                        line--;
-                        break;
-                    case KEY_EDIT: //TODO... allow to modify only string values this way
-                        move(line, DETAILS_TAB);
-                        attron(COLOR_PAIR(6));
-                        for (int i = 0; i < piece_details[attrs[line]].size(); ++i) mvdelch(line, DETAILS_TAB);
-                        move(line, DETAILS_TAB);
-                        insert = "";
-                        insert_mode = true;
-                        continue;
-                }
-                details(&piece, line);
-                break;
-            case true:
-                switch (key) {
-                    case 10: //TODO... constants
-                        printw(insert.c_str());
-                        //piece.setAttr(attrs[line], insert); //TODO... actually set atrrs
-                    case KEY_ESC:
-                        insert_mode = false;
-                        attroff(COLOR_PAIR(6));
-                        break;
-                    case KEY_FILTER:
-                        if (getcurx(stdscr) > DETAILS_TAB) {
-                            mvdelch(line, getcurx(stdscr) - 1);
-                            insert.erase(insert.end() - 1);
-                        }
-                        break;
-                    default:
-                        buff[0] = static_cast<char>(key);
-                        printw(buff);
-                        insert += static_cast<char>(key);
-                        break;
-
-
-                }
-                break;
+        if (!insert_mode) {
+            switch (key) {
+                case KEY_ESC:
+                    //setView(last_view);
+                    endwhile = true;
+                    break;
+                case KEY_ARROW_DOWN:
+                    line++;
+                    break;
+                case KEY_ARROW_UP:
+                    line--;
+                    break;
+                case KEY_EDIT: //TODO... allow to modify only string values this way
+                    switch (types[line]) {
+                        case TYPE_STRING:
+                        case TYPE_INT:
+                        case TYPE_FLOAT:
+                            move(line, DETAILS_TAB);
+                            attron(COLOR_PAIR(6));
+                            for (int i = 0; i < piece_details[attrs[line]].size(); ++i) mvdelch(line, DETAILS_TAB);
+                            move(line, DETAILS_TAB);
+                            insert = "";
+                            insert_mode = true;
+                            continue;
+                        case TYPE_BOOL:
+                            try {
+                                auto m = std::get<bool *>(piece[attrs[line]]);
+                                *m = !*m;
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                    }
+            }
+            details(&piece, line);
+        } else {
+            switch (key) {
+                case 10: //TODO... constants
+                    printw(insert.c_str());
+                    //piece.setAttr(attrs[line], insert); //TODO... actually set atrrs
+                case KEY_ESC:
+                    insert_mode = false;
+                    attroff(COLOR_PAIR(6));
+                    break;
+                case KEY_FILTER:
+                    if (getcurx(stdscr) > DETAILS_TAB) {
+                        mvdelch(line, getcurx(stdscr) - 1);
+                        insert.erase(insert.end() - 1);
+                    }
+                    break;
+                default:
+                    buff[0] = static_cast<char>(key);
+                    printw(buff);
+                    insert += static_cast<char>(key);
+                    break;
+            }
         }
-    } while ((key = getch()));
+    } while ((!endwhile && (key = getch())));
+    delete[] attrs;
+    delete[] types;
 }
 
 void Interface::_edit(Series *&piece) {
@@ -543,5 +590,9 @@ Interface::Counter::operator int() {
 }
 
 Interface::Counter::operator unsigned long() {
+    return i;
+}
+
+Interface::Counter::operator long int() {
     return i;
 }

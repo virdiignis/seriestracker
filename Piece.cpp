@@ -40,3 +40,10 @@ std::map<std::string, std::string> Piece::getListParams() const {
     m["Title"] = title;
     return m;
 }
+
+std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Piece::operator[](const std::string attr) {
+    if (attr == "Title") return &title;
+    if (attr == "Description") return &desc;
+    if (attr == "Runtime") return &runtime;
+    throw std::runtime_error("required non-existing Piece attribute");
+}

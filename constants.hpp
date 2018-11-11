@@ -20,8 +20,8 @@
 #define VIEW_EDIT 9
 
 //Minimal terminal size
-#define MIN_TERM_WIDTH 80
-#define MIN_TERM_HEIGHT 5
+#define MIN_TERM_WIDTH 90
+#define MIN_TERM_HEIGHT 10
 
 //Top render
 #define TOP_MENU_ENTRIES_NUM 3
@@ -38,7 +38,15 @@
 
 #define BOTTOM_MENU_ENTRIES_PPVS_NUM 6
 #define BOTTOM_MENU_ENTRIES_PPVS {"q: Quit", "d: details", "n: new", "^r: remove", "f: set reminder", "s: Sort"}
-#define BOTTOM_MENU_ENTRIES_PPVS_WIDTHS {max_x - 95, 16, 16, 20, 28, 15}
+#define BOTTOM_MENU_ENTRIES_PPVS_WIDTHS {max_x - 58, 12, 8, 12, 17, 9}
+
+//Types
+#define TYPE_STRING 0
+#define TYPE_BOOL 1
+#define TYPE_INT 2
+#define TYPE_DATE 3
+#define TYPE_WEEKDAY 4
+#define TYPE_FLOAT 5
 
 //Lists headers
 #define SERIES_LIST_PARAMS 4
@@ -52,6 +60,16 @@
 #define PPV_LIST_PARAMS 4
 #define PPV_LIST_PARAMS_HEADERS {"Title", "Price", "Start time", "Reminder"}
 #define PPV_LIST_PARAMS_WIDTHS {max_x - 68, 28, 30, 10}
+
+#define SERIES_DETAILS_NO 7
+#define SERIES_DETAILS {"Title", "Description", "Grade", "Genre", "Runtime", "Weekday", "Followed"}
+#define SERIES_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_INT, TYPE_STRING, TYPE_INT, TYPE_WEEKDAY, TYPE_BOOL}
+#define FILM_DETAILS_NO 5
+#define FILM_DETAILS {"Title", "Description", "Grade", "Genre", "Runtime"}
+#define FILM_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_INT, TYPE_STRING, TYPE_INT}
+#define PPV_DETAILS_NO 6
+#define PPV_DETAILS {"Title", "Description", "Price", "Start time", "Runtime", "Reminder"}
+#define PPV_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_FLOAT, TYPE_DATE, TYPE_INT, TYPE_BOOL}
 
 //Keys
 #define KEY_SERIES_LIST 266

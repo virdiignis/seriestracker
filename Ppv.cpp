@@ -63,3 +63,10 @@ std::map<std::string, std::string> Ppv::getDetails() const {
     m["Reminder"] = strReminder();
     return m;
 }
+
+std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Ppv::operator[](std::string attr) {
+    if (attr == "Price") return &price;
+    if (attr == "Start time") return &start_time;
+    if (attr == "Reminder") return &reminder;
+    return Piece::operator[](attr);
+}

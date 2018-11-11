@@ -7,6 +7,7 @@
 
 #include <string>
 #include <map>
+#include <variant>
 
 class Piece {
 protected:
@@ -17,6 +18,8 @@ protected:
     Piece(const std::string &title, const std::string &desc, unsigned short runtime);
 
 public:
+    virtual std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string);
+
     virtual std::map<std::string, std::string> getListParams() const;
 
     virtual std::map<std::string, std::string> getDetails() const;
