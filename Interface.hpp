@@ -5,8 +5,8 @@
 #ifndef SERIESTRACKER_INTERFACE_HPP
 #define SERIESTRACKER_INTERFACE_HPP
 
-#include "constants.hpp"
-#include <ncurses.h>
+#include <ncurses.h>        // Order of those
+#include "constants.hpp"    // two is important.
 #include "Series.hpp"
 #include "Ppv.hpp"
 #include "Pool.hpp"
@@ -42,7 +42,7 @@ private:
         int max_y = getmaxy(stdscr);
     public:
         unsigned int
-        getStartLine() const; //TODO... można to przepisać na rzutowanie do std::pair w szczeŋólnych przyapdkach i zmienić funkcje list interfejsu.
+        getStartLine() const;
 
         LineCounter() = default;
 
@@ -72,14 +72,16 @@ private:
 
     void topKeys();
 
+    void printError(std::string) const;
+
     void setView(unsigned short view);
 
     void _colorLinePrint(int, int, const int[], const std::string[]) const;
 
-    void _edit(Series *&);
+    void edit(Series *&);
 
     template<typename T>
-    void _edit(T &);
+    void edit(T &);
 
     template<typename T>
     void _list(Pool<T> &, unsigned int, unsigned int);
@@ -101,6 +103,16 @@ public:
     Interface();
 
     ~Interface();
+
+    void series_new();
+
+    void series_filter();
+
+    void film_new();
+
+    void ppv_new();
+
+    void filtered_unfollow();
 };
 
 template<typename T>

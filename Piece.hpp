@@ -11,11 +11,13 @@
 
 class Piece {
 protected:
-    std::string title, desc;
-    unsigned short runtime;
+    std::string title = "     ", desc = "     ";
+    unsigned short runtime = 0;
 
 protected:
     Piece(const std::string &title, const std::string &desc, unsigned short runtime);
+
+    Piece() = default;
 
 public:
     virtual std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string);

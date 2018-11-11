@@ -19,8 +19,7 @@ void Ppv::flipReminder() {
 std::string Ppv::strPrice() const {
     std::stringstream ss;
     ss << std::fixed << std::setprecision(2) << price;
-    std::string pr = ss.str();
-    return pr;
+    return std::string(ss.str());
 }
 
 void Ppv::setPrice(float price) {
@@ -28,10 +27,10 @@ void Ppv::setPrice(float price) {
 }
 
 std::string Ppv::strStartTime() const {
-    char date[22];
+    char date[25];
     struct tm *dt;
     dt = localtime(&start_time);
-    std::strftime(date, sizeof(date), "%d/%m/%Y %H:%M:%S ", dt);
+    std::strftime(date, sizeof(date), "%d/%m/%Y %H:%M", dt);
     return std::string(date);
 }
 

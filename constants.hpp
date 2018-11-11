@@ -29,16 +29,21 @@
 
 //Bottom render
 #define BOTTOM_MENU_ENTRIES_SERIES_NUM 7
-#define BOTTOM_MENU_ENTRIES_SERIES {"q: Quit", "d: details", "n: new", "^r: remove", "f: follow/unfollow", "^f: filter followed", "s: Sort"}
-#define BOTTOM_MENU_ENTRIES_SERIES_WIDTHS {max_x - 82, 12, 8, 12, 20, 21, 9}
+#define BOTTOM_MENU_ENTRIES_SERIES {"q: Quit", "e: edit", "n: new", "^r: remove", "f: follow/unfollow", "^f: filter followed", "s: Sort"}
+#define BOTTOM_MENU_ENTRIES_SERIES_WIDTHS {max_x - 79,9, 8, 12, 20, 21, 9}
 
 #define BOTTOM_MENU_ENTRIES_FILMS_NUM 5
-#define BOTTOM_MENU_ENTRIES_FILMS {"q: Quit", "d: details", "n: new", "^r: remove", "s: Sort"}
-#define BOTTOM_MENU_ENTRIES_FILMS_WIDTHS {max_x - 41, 12, 8, 12, 9}
+#define BOTTOM_MENU_ENTRIES_FILMS {"q: Quit", "e: edit", "n: new", "^r: remove", "s: Sort"}
+#define BOTTOM_MENU_ENTRIES_FILMS_WIDTHS {max_x - 38, 9, 8, 12, 9}
 
 #define BOTTOM_MENU_ENTRIES_PPVS_NUM 6
-#define BOTTOM_MENU_ENTRIES_PPVS {"q: Quit", "d: details", "n: new", "^r: remove", "f: set reminder", "s: Sort"}
-#define BOTTOM_MENU_ENTRIES_PPVS_WIDTHS {max_x - 58, 12, 8, 12, 17, 9}
+#define BOTTOM_MENU_ENTRIES_PPVS {"q: Quit", "e: edit", "n: new", "^r: remove", "f: set reminder", "s: Sort"}
+#define BOTTOM_MENU_ENTRIES_PPVS_WIDTHS {max_x - 55, 9, 8, 12, 17, 9}
+
+#define BOTTOM_MENU_ENTRIES_EDIT_NUM 3
+#define BOTTOM_MENU_ENTRIES_EDIT {"<-Decrease ->Increase",  "Enter: Write/Confirm", "Backspace: Return/Abort"}
+#define BOTTOM_MENU_ENTRIES_EDIT_WIDTHS {max_x -48, 23, 25}
+
 
 //Types
 #define TYPE_STRING 0
@@ -63,10 +68,10 @@
 
 #define SERIES_DETAILS_NO 7
 #define SERIES_DETAILS {"Title", "Description", "Grade", "Genre", "Runtime", "Weekday", "Followed"}
-#define SERIES_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_INT, TYPE_STRING, TYPE_INT, TYPE_WEEKDAY, TYPE_BOOL}
+#define SERIES_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_FLOAT, TYPE_STRING, TYPE_INT, TYPE_WEEKDAY, TYPE_BOOL}
 #define FILM_DETAILS_NO 5
 #define FILM_DETAILS {"Title", "Description", "Grade", "Genre", "Runtime"}
-#define FILM_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_INT, TYPE_STRING, TYPE_INT}
+#define FILM_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_FLOAT, TYPE_STRING, TYPE_INT}
 #define PPV_DETAILS_NO 6
 #define PPV_DETAILS {"Title", "Description", "Price", "Start time", "Runtime", "Reminder"}
 #define PPV_DETAILS_TYPES {TYPE_STRING, TYPE_STRING, TYPE_FLOAT, TYPE_DATE, TYPE_INT, TYPE_BOOL}
@@ -78,6 +83,8 @@
 #define KEY_QUIT 'q'
 #define KEY_ARROW_DOWN 258
 #define KEY_ARROW_UP 259
+#define KEY_ARROW_LEFT 260
+#define KEY_ARROW_RIGHT 261
 #define KEY_FOLLOW 'f'
 #define KEY_FILTER 6
 #define KEY_REMINDER 'f'
@@ -86,10 +93,14 @@
 #define KEY_DETAILS 'd'
 #define KEY_EDIT 'e'
 #define KEY_ESC 27
-#define KEY_BS 127
+#define KEY_BACKSPACE 127
+#define KEY_ENTER 10
+#define KEY_DELETE 330
+#define KEY_NEW 'n'
 
 #define WEEKDAYS {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
 
 
 #define DETAILS_TAB 25
+#define MAX_SHORT 65535
 #endif //SERIESTRACKER_CONSTANTS_HPP

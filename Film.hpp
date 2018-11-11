@@ -8,14 +8,17 @@
 #include "constants.hpp"
 #include "Piece.hpp"
 #include <array>
+#include <iomanip>
 
 class Film : public Piece {
 protected:
-    unsigned short grade;
-    std::string genre;
+    float grade = 0;
+    std::string genre = "     ";
 public:
-    Film(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
+    Film(const std::string &title, const std::string &desc, unsigned short runtime, float grade,
          const std::string &genre);
+
+    Film() = default;
 
     std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
 

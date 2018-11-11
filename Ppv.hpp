@@ -12,8 +12,8 @@
 
 class Ppv : public Piece {
 private:
-    float price;
-    time_t start_time;
+    float price = 0;
+    time_t start_time = time(nullptr);
     bool reminder = false;
 
     std::string strPrice() const;
@@ -26,6 +26,8 @@ private:
 
 public:
     Ppv(const std::string &, const std::string &, unsigned short, float, time_t);
+
+    Ppv() = default;
 
     std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
 

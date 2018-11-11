@@ -26,63 +26,6 @@ Interface::Interface() {
     line_fs = LineCounter<Series *>(&filtered_pool);
     line_f = LineCounter<Film>(&film_pool);
     line_p = LineCounter<Ppv>(&ppv_pool);
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Dexter", "Very interesting series about killing.", 43, 89, 6, "Drama");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    series_pool += Series("Chuck", "Series about computers and CIA", 22, 90, 4, "CIA");
-    film_pool += Film("Dexter", "Very interesting series about killing.", 43, 89, "Drama");
-    film_pool += Film("Chuck", "Series about computers and CIA", 22, 90, "CIA");
-    ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 1541523251);
-    ppv_pool += Ppv("Chuck", "Series about computers and CIA", 22, 90, 1541523000);
 }
 
 Interface::~Interface() {
@@ -127,6 +70,11 @@ void Interface::bottomKeys() {
             entries_num = BOTTOM_MENU_ENTRIES_PPVS_NUM;
             entries = new std::string[entries_num]BOTTOM_MENU_ENTRIES_PPVS;
             width = new int[entries_num]BOTTOM_MENU_ENTRIES_PPVS_WIDTHS;
+            break;
+        case VIEW_EDIT:
+            entries_num = BOTTOM_MENU_ENTRIES_EDIT_NUM;
+            entries = new std::string[entries_num]BOTTOM_MENU_ENTRIES_EDIT;
+            width = new int[entries_num]BOTTOM_MENU_ENTRIES_EDIT_WIDTHS;
             break;
         default:
             delete[] entries;
@@ -260,53 +208,73 @@ void Interface::mainLoop() {
     render();
     int key = 0;
     while ((key = getch())) {
-        switch (key) {
-            case KEY_SERIES_LIST:
-                setView(VIEW_SERIES_LIST);
-                break;
-            case KEY_FILMS_LIST:
-                setView(VIEW_FILMS_LIST);
-                break;
-            case KEY_PPVS_LIST:
-                setView(VIEW_PPVS_LIST);
-                break;
-            case KEY_QUIT:
-                return;
-            default:
-                break;
-        }
+        if (view <= VIEW_PPVS_LIST)
+            switch (key) {
+                case KEY_ARROW_RIGHT:
+                    if (view < VIEW_PPVS_LIST) setView(static_cast<unsigned short>(view + 1));
+                    break;
+                case KEY_ARROW_LEFT:
+                    if (view > 1) setView(static_cast<unsigned short>(view - 1));
+                    break;
+                case KEY_SERIES_LIST:
+                    setView(VIEW_SERIES_LIST);
+                    break;
+                case KEY_FILMS_LIST:
+                    setView(VIEW_FILMS_LIST);
+                    break;
+                case KEY_PPVS_LIST:
+                    setView(VIEW_PPVS_LIST);
+                    break;
+                case KEY_QUIT:
+                    return;
+                default:
+                    break;
+            }
         switch (view) {
             case VIEW_WELCOME:
+                if (key == KEY_QUIT) return;
+                break;
             case VIEW_SERIES_LIST:
                 switch (key) {
                     case KEY_ARROW_DOWN:
                         line_s++;
+                        setView(view);
                         break;
                     case KEY_ARROW_UP:
                         line_s--;
+                        setView(view);
                         break;
                     case KEY_FOLLOW:
                         series_pool[line_s].switchFollow();
+                        setView(view);
                         break;
                     case KEY_REMOVE:
+                    case KEY_DELETE:
                         try {
                             series_pool -= line_s;
                             if (line_s >= series_pool.size()) line_s--;
-                        } catch (std::invalid_argument &e) {}
+                        } catch (std::invalid_argument &e) {
+                            throw std::invalid_argument("Trying to delete invalid series.");
+                        }
+                        setView(view);
                         break;
                     case KEY_SORT:
                         series_pool.sort();
+                        setView(view);
                         break;
                     case KEY_FILTER:
-                        filtered_pool = series_pool.filtered();
-                        if (!filtered_pool.empty()) setView(VIEW_SERIES_FILTERED);
+                        series_filter();
                         break;
                     case KEY_DETAILS:
+                    case KEY_ENTER:
                         setView(VIEW_SERIES);
                         break;
                     case KEY_EDIT:
-                        _edit(series_pool[line_s]);
+                        edit(series_pool[line_s]);
                         setView(VIEW_SERIES_LIST);
+                        break;
+                    case KEY_NEW:
+                        series_new();
                         break;
                     default:
                         break;
@@ -316,21 +284,36 @@ void Interface::mainLoop() {
                 switch (key) {
                     case KEY_ARROW_DOWN:
                         line_f++;
+                        setView(view);
                         break;
                     case KEY_ARROW_UP:
                         line_f--;
+                        setView(view);
                         break;
                     case KEY_REMOVE:
                         try {
                             film_pool -= line_f;
                             if (line_f >= film_pool.size()) line_f--;
-                        } catch (std::invalid_argument &e) {}
+                        } catch (std::invalid_argument &e) {
+                            throw std::invalid_argument("Trying to delete invalid film.");
+                        }
+                        setView(view);
                         break;
                     case KEY_SORT:
                         film_pool.sort();
+                        setView(view);
                         break;
                     case KEY_DETAILS:
+                    case KEY_ENTER:
                         setView(VIEW_FILM);
+                        break;
+                    case KEY_NEW:
+                        film_new();
+                        break;
+                    case KEY_EDIT:
+                        edit(film_pool[line_f]);
+                        setView(VIEW_FILMS_LIST);
+                        break;
                     default:
                         break;
                 }
@@ -339,99 +322,148 @@ void Interface::mainLoop() {
                 switch (key) {
                     case KEY_ARROW_DOWN:
                         line_p++;
+                        setView(view);
                         break;
                     case KEY_ARROW_UP:
                         line_p--;
+                        setView(view);
                         break;
                     case KEY_REMINDER:
                         ppv_pool[line_p].flipReminder();
+                        setView(view);
                         break;
                     case KEY_REMOVE:
                         try {
                             ppv_pool -= line_p;
                             if (line_p >= ppv_pool.size()) line_p--;
-                        } catch (std::invalid_argument &e) {}
+                        } catch (std::invalid_argument &e) {
+                            throw std::invalid_argument("Trying to delete invalid ppv.");
+                        }
+                        setView(view);
                         break;
                     case KEY_SORT:
                         ppv_pool.sort();
+                        setView(view);
                         break;
                     case KEY_DETAILS:
+                    case KEY_ENTER:
                         setView(VIEW_PPV);
+                        break;
+                    case KEY_NEW:
+                        ppv_new();
+                        break;
+                    case KEY_EDIT:
+                        edit(ppv_pool[line_p]);
+                        setView(VIEW_PPVS_LIST);
+                        break;
                     default:
                         break;
                 }
                 break;
             case VIEW_SERIES_FILTERED:
                 switch (key) {
+                    case KEY_QUIT:
+                        return;
                     case KEY_ARROW_DOWN:
                         line_fs++;
+                        setView(view);
                         break;
                     case KEY_ARROW_UP:
                         line_fs--;
+                        setView(view);
                         break;
                     case KEY_FOLLOW:
-                        filtered_pool[line_fs]->switchFollow();
-                        line_fs--;
-                        filtered_pool = series_pool.filtered();
-                        if (filtered_pool.empty()) setView(VIEW_SERIES_LIST);
+                        filtered_unfollow();
                         break;
                     case KEY_REMOVE:
+                    case KEY_DELETE:
                         try {
-                            series_pool -= *filtered_pool[line_fs];
-                            filtered_pool -= line_fs;
+                            series_pool -= *(filtered_pool[line_fs]);
+                            filtered_pool = series_pool.filtered();
                             if (line_fs >= filtered_pool.size()) line_fs--;
                         } catch (std::invalid_argument &e) {}
+                        if (filtered_pool.empty()) setView(VIEW_SERIES_LIST);
+                        else setView(view);
                         break;
                     case KEY_SORT:
                         series_pool.sort();
                         filtered_pool = series_pool.filtered();
+                        setView(view);
                         break;
                     case KEY_FILTER:
                         setView(VIEW_SERIES_LIST);
                         break;
                     case KEY_DETAILS:
+                    case KEY_ENTER:
                         setView(VIEW_SERIES_F);
                         break;
                     case KEY_EDIT:
-                        _edit(filtered_pool[line_fs]);
+                        edit(filtered_pool[line_fs]);
                         setView(VIEW_SERIES_FILTERED);
+                    case KEY_NEW: {
+                        series_new();
+                        break;
+                    }
                     default:
                         break;
                 }
                 break;
             case VIEW_SERIES:
-                switch (key) {
-                    case KEY_DETAILS:
-                        setView(VIEW_SERIES_LIST);
-                        break;
-                }
+                setView(VIEW_SERIES_LIST);
                 break;
             case VIEW_FILM:
-                switch (key) {
-                    case KEY_DETAILS:
-                        setView(VIEW_FILMS_LIST);
-                        break;
-                }
+                setView(VIEW_FILMS_LIST);
                 break;
             case VIEW_PPV:
-                switch (key) {
-                    case KEY_DETAILS:
-                        setView(VIEW_PPVS_LIST);
-                        break;
-                }
+                setView(VIEW_PPVS_LIST);
                 break;
             case VIEW_SERIES_F:
-                switch (key) {
-                    case KEY_DETAILS:
-                        setView(VIEW_SERIES_FILTERED);
-                        break;
-                }
+                setView(VIEW_SERIES_FILTERED);
                 break;
             default:
                 break;
-        } //TODO ppv implementation of getDetails, and enter to details and return from details for filtred series
-        setView(view);
+        }
     }
+}
+
+void Interface::filtered_unfollow() {
+    filtered_pool[line_fs]->switchFollow();
+    line_fs--;
+    filtered_pool = series_pool.filtered();
+    if (filtered_pool.empty()) setView(VIEW_SERIES_LIST);
+    else setView(view);
+}
+
+void Interface::ppv_new() {
+    Ppv n;
+    edit(n);
+    if (!n.getTitle().empty() && n.getTitle().find_first_not_of(' ') != std::string::npos)
+        ppv_pool += n;
+    setView(VIEW_PPVS_LIST);
+}
+
+void Interface::film_new() {
+    Film n;
+    edit(n);
+    if (!n.getTitle().empty() && n.getTitle().find_first_not_of(' ') != std::string::npos)
+        film_pool += n;
+    setView(VIEW_FILMS_LIST);
+}
+
+void Interface::series_filter() {
+    filtered_pool = series_pool.filtered();
+    line_fs = 0;
+    if (!filtered_pool.empty()) setView(VIEW_SERIES_FILTERED);
+    else printError("No series followed.");
+}
+
+void Interface::series_new() {
+    Series n;
+    edit(n);
+    if (!n.getTitle().empty() &&
+        n.getTitle().find_first_not_of(' ') != std::string::npos)
+        series_pool += n;
+    setView(VIEW_SERIES_LIST);
 }
 
 void Interface::setView(unsigned short view) {
@@ -479,7 +511,7 @@ void Interface::list(Pool<T> &pool, unsigned int activeLine, unsigned int start_
 }
 
 template<typename T>
-void Interface::_edit(T &piece) {
+void Interface::edit(T &piece) {
     std::string *attrs = nullptr;
     int *types = nullptr;
     if (typeid(T) == typeid(Series)) {
@@ -508,8 +540,87 @@ void Interface::_edit(T &piece) {
         if (!insert_mode) {
             switch (key) {
                 case KEY_ESC:
+                case KEY_BACKSPACE:
                     //setView(last_view);
                     endwhile = true;
+                    break;
+                case KEY_ARROW_LEFT:
+                    switch (types[line]) {
+                        case TYPE_DATE:
+                            try {
+                                auto m = std::get<time_t *>(piece[attrs[line]]);
+                                *m -= 60;
+                                piece_details = piece.getDetails();
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                        case TYPE_INT:
+                            try {
+                                auto m = std::get<unsigned short *>(piece[attrs[line]]);
+                                (*m)--;
+                                piece_details = piece.getDetails();
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                        case TYPE_FLOAT:
+                            try {
+                                auto m = std::get<float *>(piece[attrs[line]]);
+                                (*m) -= 0.1;
+                                piece_details = piece.getDetails();
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                        case TYPE_WEEKDAY:
+                            try {
+                                auto m = std::get<unsigned short *>(piece[attrs[line]]);
+                                *m = (*m - 1) >= 0 ? (*m - 1) % 7 : 6;
+                            } catch (std::bad_variant_access &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                    }
+                    break;
+                case KEY_ARROW_RIGHT:
+                    switch (types[line]) {
+                        case TYPE_DATE:
+                            try {
+                                auto m = std::get<time_t *>(piece[attrs[line]]);
+                                *m += 60;
+                                piece_details = piece.getDetails();
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                        case TYPE_INT:
+                            try {
+                                auto m = std::get<unsigned short *>(piece[attrs[line]]);
+                                (*m)++;
+                                piece_details = piece.getDetails();
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                        case TYPE_FLOAT:
+                            try {
+                                auto m = std::get<float *>(piece[attrs[line]]);
+                                (*m) += 0.1;
+                                piece_details = piece.getDetails();
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                        case TYPE_WEEKDAY:
+                            try {
+                                auto m = std::get<unsigned short *>(piece[attrs[line]]);
+                                *m = (*m + 1) % 7;
+                            } catch (std::bad_variant_access &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                    }
                     break;
                 case KEY_ARROW_DOWN:
                     line++;
@@ -518,6 +629,7 @@ void Interface::_edit(T &piece) {
                     line--;
                     break;
                 case KEY_EDIT: //TODO... allow to modify only string values this way
+                case KEY_ENTER:
                     switch (types[line]) {
                         case TYPE_STRING:
                         case TYPE_INT:
@@ -533,23 +645,87 @@ void Interface::_edit(T &piece) {
                             try {
                                 auto m = std::get<bool *>(piece[attrs[line]]);
                                 *m = !*m;
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                             break;
+                        case TYPE_WEEKDAY:
+                            try {
+                                auto m = std::get<unsigned short *>(piece[attrs[line]]);
+                                *m = (*m + 1) % 7;
+                            } catch (std::bad_variant_access &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
+                            break;
+                        case TYPE_DATE:
+                            try {
+                                auto m = std::get<time_t *>(piece[attrs[line]]);
+                                *m = time(nullptr);
+                                piece_details = piece.getDetails();
+                            } catch (std::exception &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            }
                     }
+                default:
+                    break;
             }
             details(&piece, line);
         } else {
             switch (key) {
-                case 10: //TODO... constants
-                    printw(insert.c_str());
-                    //piece.setAttr(attrs[line], insert); //TODO... actually set atrrs
+                case KEY_ENTER:
+                    switch (types[line]) {
+                        case TYPE_STRING:
+                            if (!insert.empty()) {
+                                try {
+                                    auto a = std::get<std::string *>(piece[attrs[line]]);
+                                    a->clear();
+                                    *a = insert;
+                                    piece_details[attrs[line]] = insert;
+                                } catch (std::bad_variant_access &e) {
+                                    throw std::runtime_error("Inconsistent parameter type in edit.");
+                                }
+                            }
+                            break;
+                        case TYPE_INT:
+                            try {
+                                auto a = std::get<unsigned short *>(piece[attrs[line]]);
+                                unsigned long i = std::stoul(insert);
+                                if (std::to_string(i) == insert && i >= 0 && i < MAX_SHORT) {
+                                    *a = static_cast<unsigned short>(i);
+                                    piece_details[attrs[line]] = insert;
+                                }
+                            } catch (std::bad_variant_access &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            } catch (std::invalid_argument &e) {
+                                printError("Insert only non-negative integers!");
+                            }
+                            break;
+                        case TYPE_FLOAT:
+                            try {
+                                auto a = std::get<float *>(piece[attrs[line]]);
+                                float i = std::stof(insert);
+                                std::stringstream ss;
+                                ss << std::fixed << std::setprecision(1) << i;
+                                if (i >= 0 && ss.str() == insert) {
+                                    *a = i;
+                                    piece_details = piece.getDetails();
+                                } else throw std::invalid_argument("Invalid float.");
+                            } catch (std::bad_variant_access &e) {
+                                throw std::runtime_error("Inconsistent parameter type in edit.");
+                            } catch (std::invalid_argument &e) {
+                                printError("Insert only >=0 floats with dot as decimal point.");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 case KEY_ESC:
+                case KEY_BACKSPACE:
                     insert_mode = false;
                     attroff(COLOR_PAIR(6));
+                    details(&piece, line);
                     break;
-                case KEY_FILTER:
+                case KEY_ARROW_LEFT:
                     if (getcurx(stdscr) > DETAILS_TAB) {
                         mvdelch(line, getcurx(stdscr) - 1);
                         insert.erase(insert.end() - 1);
@@ -567,8 +743,14 @@ void Interface::_edit(T &piece) {
     delete[] types;
 }
 
-void Interface::_edit(Series *&piece) {
-    _edit(*piece);
+void Interface::edit(Series *&piece) {
+    edit(*piece);
+}
+
+void Interface::printError(std::string error) const {
+    attron(A_BOLD | COLOR_PAIR(6));
+    mvprintw(max_y - 1, 0, error.c_str());
+    attroff(A_BOLD | COLOR_PAIR(6));
 }
 
 Interface::Counter::Counter(unsigned int max) : max(max) {}

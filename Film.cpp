@@ -4,13 +4,15 @@
 
 #include "Film.hpp"
 
-Film::Film(const std::string &title, const std::string &desc, unsigned short runtime, unsigned short grade,
+Film::Film(const std::string &title, const std::string &desc, unsigned short runtime, float grade,
            const std::string &genre) : Piece(title, desc, runtime),
                                        grade(grade),
                                        genre(genre) {}
 
 std::string Film::strGrade() const {
-    return std::to_string(grade / 10) + "," + std::to_string(grade % 10);
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(1) << grade;
+    return std::string(ss.str());
 }
 
 const std::string &Film::getGenre() const {
