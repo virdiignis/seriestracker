@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "Interface.hpp"
-#include "Database.cpp"
 
 
 Interface::Interface() {
