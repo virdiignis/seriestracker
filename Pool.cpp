@@ -26,20 +26,13 @@ void Pool<T>::sort() noexcept {
 }
 
 template<typename T>
-std::string Pool<T>::serialize() const noexcept {
-    std::string r;
-    for (auto &it: *this) r += it.serialize() += "\n";
-    return r;
-}
-
-template<typename T>
 void Pool<T>::operator-=(int i) {
     if (this->size() <= i) throw std::invalid_argument("Index out of range!");
     this->erase(this->begin() + i);
 }
 
 template<typename T>
-Pool<Series *> Pool<T>::filtered() {
+Pool<Series *> Pool<T>::filtered() const {
     if (typeid(T) != typeid(Series)) throw std::domain_error("Only pool of type Series can be filtered.");
     Pool<Series *> p;
     for (auto &item: *this) if (item.isFollowed()) p += &item;

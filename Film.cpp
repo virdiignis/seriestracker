@@ -10,11 +10,7 @@ std::string Film::strGrade() const {
     return std::string(ss.str());
 }
 
-std::string Film::serialize() {
-    return title + ":" + desc + ":" + std::to_string(runtime) + ":" + std::to_string(grade) + ":" + genre;
-}
-
-bool Film::operator<(const Film &rhs) {
+bool Film::operator<(const Film &rhs) const {
     return grade > rhs.grade;
 }
 

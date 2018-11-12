@@ -32,8 +32,6 @@ public:
     void flipFollow() noexcept;
 
     std::string strFollowed() const;
-
-    std::string serialize() final;
 };
 
 

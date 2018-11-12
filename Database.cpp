@@ -5,7 +5,7 @@
 #include "Database.hpp"
 
 
-void Database::start() {
+void Database::start() const {
     try {
         if (!fs::exists(BASE_DIR)) fs::create_directory(fs::path(BASE_DIR));
         if (!fs::exists(SERIES_DIR)) fs::create_directory(fs::path(SERIES_DIR));
@@ -23,7 +23,7 @@ Database::Database(Pool<Series> &s, Pool<Film> &f, Pool<Ppv> &p) {
     load(p);
 }
 template<typename T>
-void Database::load(Pool<T> &pool) {
+void Database::load(Pool<T> &pool) const {
     int size = 0;
     int *types = nullptr;
     std::string *attrs = nullptr;
@@ -124,6 +124,6 @@ void Database::load(Pool<T> &pool) {
     delete[] attrs;
 }
 
-void Database::write(Series *&piece) {
+void Database::write(Series *&piece) const {
     write(*piece);
 }

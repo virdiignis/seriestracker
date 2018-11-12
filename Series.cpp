@@ -8,11 +8,6 @@ void Series::flipFollow() noexcept {
     followed = !followed;
 }
 
-std::string Series::serialize() {
-    return title + ":" + desc + ":" + std::to_string(runtime) + ":" + std::to_string(grade) + ":" +
-           std::to_string(weekday) + ":" + genre + ":" + std::to_string(followed);
-}
-
 std::map<std::string, std::string> Series::getListParams() const {
     auto m = Film::getListParams();
     m["Followed"] = strFollowed();

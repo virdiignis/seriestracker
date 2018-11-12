@@ -16,30 +16,60 @@
 
 namespace fs = std::filesystem;
 
+/*!
+ * Provides interface for loading folder structure to Pools,
+ * and for updating piecies back into the files.
+ */
 class Database {
 private:
-    void start();
+    /*!
+     * Initializes the directories structure when program is run for the first time.
+     */
+    void start() const;
 
+    /*!
+     * Loads all of pieces specific for a Pool type into it.
+     * @tparam T is type of Pieces stored in the pool.
+     * @param pool of T-type pieces.
+     */
     template<typename T>
-    void load(Pool<T> &);
+    void load(Pool<T> &) const;
 
 public:
     Database() = default;
 
+    /*!
+     * @param series pool
+     * @param films pool
+     * @param ppv's pool
+     */
     Database(Pool<Series> &, Pool<Film> &, Pool<Ppv> &);
 
-    void write(Series *&);
+    /*!
+     * Writes object given as Series* to disk.
+     */
+    void write(Series *&) const;
 
+    /*!
+     * Writes piece of T type to disk.
+     * @tparam T type of piece to write to disk
+     * @param piece to write to disk
+     */
     template<typename T>
-    void write(T &);
+    void write(T &) const;
 
+    /*!
+     * Removes disk copy of given piece.
+     * @tparam T type of piece to remove from disk
+     * @param piece to be removed
+     */
     template<typename T>
-    void remove(T &);
+    void remove(T &) const;
 
 };
 
 template<typename T>
-void Database::write(T &piece) {
+void Database::write(T &piece) const {
     int size = 0;
     std::string *attrs = nullptr;
     int *types = nullptr;
@@ -112,7 +142,7 @@ void Database::write(T &piece) {
 }
 
 template<typename T>
-void Database::remove(T &piece) {
+void Database::remove(T &piece) const {
     std::string dir;
     if (typeid(T) == typeid(Series)) {
         dir = SERIES_DIR;

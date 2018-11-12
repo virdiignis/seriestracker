@@ -15,8 +15,14 @@
 #include "Pool.cpp"
 
 
+/*!
+ * Provides whole communication between human and the program.
+ */
 class Interface {
 private:
+    /*!
+     * Provides ability to count within 0 to max boundaries.
+     */
     class Counter {
     private:
         unsigned int i = 0, max = 0;
@@ -36,6 +42,11 @@ private:
         void operator--(int);
     };
 
+    /*!
+     * Provides ability to count within 0 to .size() of a vector<T>, stored as inner pointer.
+     * Also calculates from which element should interface start showing list, so active element remains always on screen.
+     * @tparam T type of elements in the vector<> which size determines counter max
+     */
     template<typename T>
     class LineCounter {
     private:
@@ -44,8 +55,11 @@ private:
         unsigned int start_line = 0;
         int max_y = getmaxy(stdscr);
     public:
-        unsigned int
-        getStartLine() const;
+        /*!
+         * Calculates from which line start the listing, so the active line remains on the screen.
+         * @return index: unsigned int
+         */
+        unsigned int getStartLine() const;
 
         LineCounter() = default;
 

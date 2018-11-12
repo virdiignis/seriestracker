@@ -23,11 +23,9 @@ public:
 
     virtual std::map<std::string, std::string> getDetails() const;
 
-    bool operator==(const Piece &);
+    bool operator==(const Piece &) const;
 
     const std::string &getTitle() const;
-
-    virtual std::string serialize() = 0;
 
 };
 

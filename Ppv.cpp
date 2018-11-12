@@ -31,11 +31,6 @@ std::string Ppv::strStartTime() const {
     return std::string(date);
 }
 
-std::string Ppv::serialize() {
-    return title + ":" + desc + ":" + std::to_string(runtime) + ":" + std::to_string(start_time) + ":" +
-           std::to_string(price) + ":" + std::to_string(reminder);
-}
-
 std::map<std::string, std::string> Ppv::getListParams() const {
     auto m = Piece::getListParams();
     m["Price"] = strPrice();
@@ -44,7 +39,7 @@ std::map<std::string, std::string> Ppv::getListParams() const {
     return m;
 }
 
-bool Ppv::operator<(Ppv const &oth) {
+bool Ppv::operator<(Ppv const &oth) const {
     return start_time < oth.start_time;
 }
 

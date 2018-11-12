@@ -8,8 +8,8 @@ const std::string &Piece::getTitle() const {
     return title;
 }
 
-bool Piece::operator==(const Piece &oth) {
-    return this->title == oth.title;
+bool Piece::operator==(const Piece &oth) const {
+    return this->title == oth.title && typeid(*this) == typeid(oth);
 }
 
 std::map<std::string, std::string> Piece::getDetails() const {

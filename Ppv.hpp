@@ -33,13 +33,11 @@ private:
 public:
     Ppv() = default;
 
-    void flipReminder();
+    void flipReminder() noexcept;
 
     std::map<std::string, std::string> getListParams() const final;
 
-    std::string serialize() override;
-
-    bool operator<(Ppv const &);
+    bool operator<(Ppv const &) const;
 
     std::map<std::string, std::string> getDetails() const final;
 };

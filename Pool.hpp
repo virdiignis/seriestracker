@@ -23,10 +23,7 @@ public:
 
     void sort() noexcept;
 
-    Pool<Series *> filtered();
-
-    std::string serialize() const noexcept;
-
+    Pool<Series *> filtered() const;
 };
 
 
