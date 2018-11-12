@@ -43,7 +43,7 @@ const bool Series::isFollowed() const {
     return followed;
 }
 
-std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Series::operator[](std::string attr) {
+std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Series::operator[](const std::string &attr) {
     if (attr == "Followed") return &followed;
     if (attr == "Weekday") return &weekday;
     return Film::operator[](attr);

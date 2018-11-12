@@ -18,7 +18,7 @@ private:
 
     friend class Database;
 
-    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
+    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](const std::string &) override;
 
 public:
     Series() = default;

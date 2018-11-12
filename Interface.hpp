@@ -7,13 +7,8 @@
 
 #include <ncurses.h>        // Order of those
 #include "constants.hpp"    // two is important.
-//#include "Database.cpp"
-//#include "Database.hpp"
-#include "Series.hpp"
-#include "Ppv.hpp"
-#include "Pool.hpp"
-#include "Pool.cpp"
 #include "Database.hpp"
+#include "Pool.cpp"
 
 
 class Interface {
@@ -119,38 +114,5 @@ public:
 
     ~Interface();
 };
-
-template<typename T>
-Interface::LineCounter<T>::LineCounter(std::vector<T> *p) : p(p) {}
-
-template<typename T>
-Interface::LineCounter<T>::operator unsigned int() const {
-    return i;
-}
-
-template<typename T>
-void Interface::LineCounter<T>::operator++(int) {
-    if (i + 1 < p->size()) {
-        i++;
-        if (max_y - 3 + start_line <= i) start_line++;
-    }
-}
-
-template<typename T>
-void Interface::LineCounter<T>::operator--(int) {
-    if (i > 0) i--;
-    if (i < start_line) start_line--;
-}
-
-template<typename T>
-Interface::LineCounter<T> &Interface::LineCounter<T>::operator=(unsigned int s) {
-    i = s;
-    return *this;
-}
-
-template<typename T>
-unsigned int Interface::LineCounter<T>::getStartLine() const {
-    return start_line;
-}
 
 #endif //SERIESTRACKER_INTERFACE_HPP

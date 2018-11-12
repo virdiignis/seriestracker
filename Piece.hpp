@@ -14,7 +14,7 @@ protected:
     std::string title = "     ", desc = "     ";
     unsigned short runtime = 0;
 
-    virtual std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string);
+    virtual std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](const std::string &);
 
     Piece() = default;
 

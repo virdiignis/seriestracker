@@ -32,7 +32,7 @@ std::map<std::string, std::string> Film::getDetails() const {
     return m;
 }
 
-std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Film::operator[](const std::string attr) {
+std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Film::operator[](const std::string &attr) {
     if (attr == "Genre") return &genre;
     if (attr == "Grade") return &grade;
     return Piece::operator[](attr);

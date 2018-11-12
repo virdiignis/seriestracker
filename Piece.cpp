@@ -26,7 +26,7 @@ std::map<std::string, std::string> Piece::getListParams() const {
     return m;
 }
 
-std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Piece::operator[](const std::string attr) {
+std::variant<std::string *, unsigned short *, bool *, time_t *, float *> Piece::operator[](const std::string &attr) {
     if (attr == "Title") return &title;
     if (attr == "Description") return &desc;
     if (attr == "Runtime") return &runtime;
