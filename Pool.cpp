@@ -32,7 +32,7 @@ void Pool<T>::operator-=(int i) {
 }
 
 template<typename T>
-Pool<Series *> Pool<T>::filtered() const {
+Pool<Series *> Pool<T>::filtered() {
     if (typeid(T) != typeid(Series)) throw std::domain_error("Only pool of type Series can be filtered.");
     Pool<Series *> p;
     for (auto &item: *this) if (item.isFollowed()) p += &item;

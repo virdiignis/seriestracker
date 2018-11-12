@@ -741,7 +741,7 @@ void Interface::edit(T &piece) {
                     details(&piece, line);
                     break;
                 case KEY_ARROW_LEFT:
-                    if (getcurx(stdscr) > DETAILS_TAB) {
+                    if (getcurx(stdscr) > DETAILS_TAB && !insert.empty()) {
                         mvdelch(line, getcurx(stdscr) - 1);
                         insert.erase(insert.end() - 1);
                     }

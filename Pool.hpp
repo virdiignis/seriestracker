@@ -23,7 +23,7 @@ public:
 
     void sort() noexcept;
 
-    Pool<Series *> filtered() const;
+    Pool<Series *> filtered();
 };
 
 

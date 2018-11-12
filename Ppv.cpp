@@ -9,7 +9,7 @@ std::string Ppv::strReminder() const {
     return (reminder ? "[X]" : "[ ]");
 }
 
-void Ppv::flipReminder() {
+void Ppv::flipReminder() noexcept {
     reminder = !reminder;
 }
 

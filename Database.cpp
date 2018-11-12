@@ -53,7 +53,7 @@ void Database::load(Pool<T> &pool) const {
         std::ifstream f(it.path());
         if (!f.good()) throw std::runtime_error("Cannot open db file.");
         for (int i = 0; i < size; ++i) {
-            f >> temp;
+            std::getline(f, temp);
             temp.erase(temp.begin());
             switch (types[i]) {
                 case TYPE_BOOL:
@@ -97,6 +97,7 @@ void Database::load(Pool<T> &pool) const {
                     try {
                         *(std::get<float *>(n[attrs[i]])) = std::stof(temp);
                     } catch (std::invalid_argument &e) {
+                        throw std::runtime_error(temp.c_str());
                         throw std::invalid_argument("Was expecting float value from db file, got non-numeric value.");
                     } catch (std::out_of_range &e) {
                         throw std::invalid_argument(

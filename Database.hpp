@@ -8,6 +8,7 @@
 #include "constants.hpp"
 #include <string>
 #include <fstream>
+#include <cstdio>
 #include <filesystem>
 #include <variant>
 #include "Series.hpp"
