@@ -63,6 +63,10 @@ private:
 
         LineCounter() = default;
 
+        /*!
+         * Initializes counter with maximum = parameter vector.size()
+         * @param p vector which size is limiting counter
+         */
         explicit LineCounter(std::vector<T> *p);
 
         operator unsigned int() const;
@@ -86,18 +90,38 @@ private:
     Pool<Ppv> ppv_pool;
     LineCounter<Ppv> line_p;
 
+    //! Prints welcome string in the middle of the screen
     void welcome();
 
+    //! Prints line with tabs at the top of the screen
     void topKeys();
 
+    //! Prints error (usually regarding user input) on the bottom of the screen
+    //! @param error: std::string
     void printError(std::string) const;
 
-    void setView(unsigned short view);
+    //! Sets menu state (view), and refreshing content.
+    //! @param view
+    void setView(unsigned short);
 
+    /*!
+     * Prints tabulated line in given color pair
+     * @param color_pair: int
+     * @param fields_count: int
+     * @param columns_width: const int*
+     * @param fields: const string*
+     */
     void _colorLinePrint(int, int, const int[], const std::string[]) const;
 
+    //! Providing view to edit Series* entry.
+    //! @param series: Series*
     void edit(Series *&);
 
+    /*!
+     * Providing view to edit Piece entry.
+     * @param piece: T
+     * @tparam T: type of piece to edit
+     */
     template<typename T>
     void edit(T &);
 
@@ -106,26 +130,45 @@ private:
 
     void _list(Pool<Series *> &, unsigned int, unsigned int);
 
+    /*!
+     * Method is listing pieces from Pool given as argument, starting at @start_line, with active @active_line.
+     * @tparam T: type of pieces in pool
+     * @param pool: Pool<T>
+     * @param active_line: unsigned int
+     * @param start_line: unsigned int
+     */
     template<typename T>
     void list(Pool<T> &, unsigned int, unsigned int);
 
+    //! Prints line with usage hints for the user at the bottom of the screen, depending on current view.
     void bottomKeys();
 
-    void details(const Piece *, int active_line);
+    /*! Prints details of given @piece, with possible @active_line marked in different color.
+     * @param piece: const Piece*
+     * @param active_line: int
+     */
+    void details(const Piece *, int);
 
+    //! Writes current view to terminal window.
     void render();
 
+    //! Triggers adding a new series.
     void series_new();
 
+    //! Triggers filtering of series to followed only.
     void series_filter();
 
+    //! Triggers adding a new film.
     void film_new();
 
+    //! Triggers adding a new ppv.
     void ppv_new();
 
+    //! Performs unfollowing of a series in filtered view.
     void filtered_unfollow();
 
 public:
+    //! Getting user input and changing views accordingly.
     void mainLoop();
 
     Interface();

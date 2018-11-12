@@ -12,6 +12,10 @@
 #include <algorithm>
 #include "Series.hpp"
 
+/*!
+ * Pool of objects, extends std::vector with overloaded operators, sorting method and filtering by parameter.
+ * @tparam T: type of contained objects
+ */
 template<typename T>
 class Pool : public std::vector<T> {
 public:
@@ -21,6 +25,7 @@ public:
 
     void operator-=(int);
 
+    //! Sorting the pool with standard operator< of contained objects.
     void sort() noexcept;
 
     Pool<Series *> filtered();
