@@ -2,9 +2,7 @@
 // Created by prance on 22.10.18.
 //
 
-#include <iostream>
 #include "Interface.hpp"
-#include "Database.cpp"
 
 Interface::Interface() {
     initscr();

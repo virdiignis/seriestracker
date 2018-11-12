@@ -8,6 +8,10 @@
 #include <ncurses.h>        // Order of those
 #include "constants.hpp"    // two is important.
 #include "Database.hpp"
+#include "Series.hpp"
+#include "Film.hpp"
+#include "Ppv.hpp"
+#include "Pool.hpp"
 #include "Pool.cpp"
 
 
