@@ -10,6 +10,8 @@
 #include "Series.hpp"
 #include "Ppv.hpp"
 #include "Pool.hpp"
+#include "Pool.cpp"
+#include "Database.hpp"
 
 
 class Interface {
@@ -59,6 +61,7 @@ private:
 
     unsigned short view = 0;
     unsigned short max_y, max_x;
+    Database db;
     Pool<Series> series_pool;
     LineCounter<Series> line_s;
     Pool<Series *> filtered_pool;

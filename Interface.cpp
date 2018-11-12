@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "Interface.hpp"
-#include "Pool.cpp"
+#include "Database.cpp"
 
 
 Interface::Interface() {
@@ -22,6 +22,7 @@ Interface::Interface() {
     init_pair(4, COLOR_WHITE, COLOR_CYAN);
     init_pair(5, COLOR_WHITE, COLOR_BLUE);
     init_pair(6, COLOR_WHITE, COLOR_RED);
+    db = Database(series_pool, film_pool, ppv_pool);
     line_s = LineCounter<Series>(&series_pool);
     line_fs = LineCounter<Series *>(&filtered_pool);
     line_f = LineCounter<Film>(&film_pool);
@@ -246,11 +247,13 @@ void Interface::mainLoop() {
                         break;
                     case KEY_FOLLOW:
                         series_pool[line_s].flipFollow();
+                        db.write(series_pool[line_s]);
                         setView(view);
                         break;
                     case KEY_REMOVE:
                     case KEY_DELETE:
                         try {
+                            db.remove(series_pool[line_s]);
                             series_pool -= line_s;
                             if (line_s >= series_pool.size()) line_s--;
                         } catch (std::invalid_argument &e) {
@@ -271,6 +274,7 @@ void Interface::mainLoop() {
                         break;
                     case KEY_EDIT:
                         edit(series_pool[line_s]);
+                        db.write(series_pool[line_s]);
                         setView(VIEW_SERIES_LIST);
                         break;
                     case KEY_NEW:
@@ -292,6 +296,7 @@ void Interface::mainLoop() {
                         break;
                     case KEY_REMOVE:
                         try {
+                            db.remove(film_pool[line_f]);
                             film_pool -= line_f;
                             if (line_f >= film_pool.size()) line_f--;
                         } catch (std::invalid_argument &e) {
@@ -312,6 +317,7 @@ void Interface::mainLoop() {
                         break;
                     case KEY_EDIT:
                         edit(film_pool[line_f]);
+                        db.write(film_pool[line_f]);
                         setView(VIEW_FILMS_LIST);
                         break;
                     default:
@@ -330,10 +336,12 @@ void Interface::mainLoop() {
                         break;
                     case KEY_REMINDER:
                         ppv_pool[line_p].flipReminder();
+                        db.write(ppv_pool[line_p]);
                         setView(view);
                         break;
                     case KEY_REMOVE:
                         try {
+                            db.remove(ppv_pool[line_p]);
                             ppv_pool -= line_p;
                             if (line_p >= ppv_pool.size()) line_p--;
                         } catch (std::invalid_argument &e) {
@@ -354,6 +362,7 @@ void Interface::mainLoop() {
                         break;
                     case KEY_EDIT:
                         edit(ppv_pool[line_p]);
+                        db.write(ppv_pool[line_p]);
                         setView(VIEW_PPVS_LIST);
                         break;
                     default:
@@ -378,6 +387,7 @@ void Interface::mainLoop() {
                     case KEY_REMOVE:
                     case KEY_DELETE:
                         try {
+                            db.remove(*(filtered_pool[line_fs]));
                             series_pool -= *(filtered_pool[line_fs]);
                             filtered_pool = series_pool.filtered();
                             if (line_fs >= filtered_pool.size()) line_fs--;
@@ -399,6 +409,8 @@ void Interface::mainLoop() {
                         break;
                     case KEY_EDIT:
                         edit(filtered_pool[line_fs]);
+                        db.write(filtered_pool[line_fs]);
+                        filtered_pool = series_pool.filtered();
                         setView(VIEW_SERIES_FILTERED);
                     case KEY_NEW: {
                         series_new();
@@ -428,6 +440,7 @@ void Interface::mainLoop() {
 
 void Interface::filtered_unfollow() {
     filtered_pool[line_fs]->flipFollow();
+    db.write(*(filtered_pool[line_fs]));
     line_fs--;
     filtered_pool = series_pool.filtered();
     if (filtered_pool.empty()) setView(VIEW_SERIES_LIST);
@@ -437,16 +450,20 @@ void Interface::filtered_unfollow() {
 void Interface::ppv_new() {
     Ppv n;
     edit(n);
-    if (!n.getTitle().empty() && n.getTitle().find_first_not_of(' ') != std::string::npos)
+    if (!n.getTitle().empty() && n.getTitle().find_first_not_of(' ') != std::string::npos) {
         ppv_pool += n;
+        db.write(n);
+    }
     setView(VIEW_PPVS_LIST);
 }
 
 void Interface::film_new() {
     Film n;
     edit(n);
-    if (!n.getTitle().empty() && n.getTitle().find_first_not_of(' ') != std::string::npos)
+    if (!n.getTitle().empty() && n.getTitle().find_first_not_of(' ') != std::string::npos) {
         film_pool += n;
+        db.write(n);
+    }
     setView(VIEW_FILMS_LIST);
 }
 
@@ -460,9 +477,10 @@ void Interface::series_filter() {
 void Interface::series_new() {
     Series n;
     edit(n);
-    if (!n.getTitle().empty() &&
-        n.getTitle().find_first_not_of(' ') != std::string::npos)
+    if (!n.getTitle().empty() && n.getTitle().find_first_not_of(' ') != std::string::npos) {
         series_pool += n;
+        db.write(n);
+    }
     setView(VIEW_SERIES_LIST);
 }
 
@@ -551,7 +569,7 @@ void Interface::edit(T &piece) {
                                 auto m = std::get<time_t *>(piece[attrs[line]]);
                                 *m -= 60;
                                 piece_details = piece.getDetails();
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                             break;
@@ -560,7 +578,7 @@ void Interface::edit(T &piece) {
                                 auto m = std::get<unsigned short *>(piece[attrs[line]]);
                                 (*m)--;
                                 piece_details = piece.getDetails();
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                             break;
@@ -569,7 +587,7 @@ void Interface::edit(T &piece) {
                                 auto m = std::get<float *>(piece[attrs[line]]);
                                 (*m) -= 0.1;
                                 piece_details = piece.getDetails();
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                             break;
@@ -590,7 +608,7 @@ void Interface::edit(T &piece) {
                                 auto m = std::get<time_t *>(piece[attrs[line]]);
                                 *m += 60;
                                 piece_details = piece.getDetails();
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                             break;
@@ -599,7 +617,7 @@ void Interface::edit(T &piece) {
                                 auto m = std::get<unsigned short *>(piece[attrs[line]]);
                                 (*m)++;
                                 piece_details = piece.getDetails();
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                             break;
@@ -608,7 +626,7 @@ void Interface::edit(T &piece) {
                                 auto m = std::get<float *>(piece[attrs[line]]);
                                 (*m) += 0.1;
                                 piece_details = piece.getDetails();
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                             break;
@@ -628,7 +646,7 @@ void Interface::edit(T &piece) {
                 case KEY_ARROW_UP:
                     line--;
                     break;
-                case KEY_EDIT: //TODO... allow to modify only string values this way
+                case KEY_EDIT:
                 case KEY_ENTER:
                     switch (types[line]) {
                         case TYPE_STRING:
@@ -662,7 +680,7 @@ void Interface::edit(T &piece) {
                                 auto m = std::get<time_t *>(piece[attrs[line]]);
                                 *m = time(nullptr);
                                 piece_details = piece.getDetails();
-                            } catch (std::exception &e) {
+                            } catch (std::bad_variant_access &e) {
                                 throw std::runtime_error("Inconsistent parameter type in edit.");
                             }
                     }

@@ -101,4 +101,9 @@
 #define KEY_DELETE 330
 #define KEY_NEW 'n'
 
+//DB directiories
+#define BASE_DIR ".seriestracker/"
+#define SERIES_DIR ".seriestracker/series/"
+#define FILMS_DIR ".seriestracker/films/"
+#define PPVS_DIR ".seriestracker/ppvs/"
 #endif //SERIESTRACKER_CONSTANTS_HPP

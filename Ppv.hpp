@@ -16,30 +16,32 @@ private:
     time_t start_time = time(nullptr);
     bool reminder = false;
 
-    friend class Interface;
-
     std::string strPrice() const;
 
     std::string strStartTime() const;
+
+    friend class Interface;
+
+    friend class Database;
 
     std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
 
     void setPrice(float price);
 
+    std::string strReminder() const;
+
 public:
     Ppv() = default;
 
-    std::string strReminder() const;
-
     void flipReminder();
 
-    std::map<std::string, std::string> getListParams() const override;
+    std::map<std::string, std::string> getListParams() const final;
 
     std::string serialize() override;
 
     bool operator<(Ppv const &);
 
-    std::map<std::string, std::string> getDetails() const override;
+    std::map<std::string, std::string> getDetails() const final;
 };
 
 

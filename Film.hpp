@@ -18,10 +18,15 @@ protected:
 
     std::string strGrade() const;
 
+    friend class Interface;
+
+    friend class Database;
+
+    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
+
 public:
     Film() = default;
 
-    std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
 
     std::map<std::string, std::string> getDetails() const override;
 

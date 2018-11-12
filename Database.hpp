@@ -5,14 +5,6 @@
 #ifndef SERIESTRACKER_DATABASE_HPP
 #define SERIESTRACKER_DATABASE_HPP
 
-#define BASE_DIR ".seriestracker"
-
-#define SERIES_DIR ".seriestracker/series"
-
-#define FILMS_DIR ".seriestracker/films"
-
-#define PPVS_DIR ".seriestracker/ppvs"
-
 #include <string>
 #include <fstream>
 #include <filesystem>
@@ -26,18 +18,21 @@ class Database {
 private:
     void start();
 
-    void load(Pool<Series> &);
-
-    void load(Pool<Film> &);
-
-    void load(Pool<Ppv> &);
+    template<typename T>
+    void load(Pool<T> &);
 
 public:
-    explicit Database(const std::string &filename);
+    Database() = default;
 
-    void close();
+    Database(Pool<Series> &, Pool<Film> &, Pool<Ppv> &);
 
-    void write(std::string const &);
+
+    template<typename T>
+    void write(T &);
+
+    template<typename T>
+    void remove(T &);
+
 };
 
 

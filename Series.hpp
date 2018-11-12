@@ -16,6 +16,8 @@ private:
 
     friend class Interface;
 
+    friend class Database;
+
     std::variant<std::string *, unsigned short *, bool *, time_t *, float *> operator[](std::string) override;
 
 public:
